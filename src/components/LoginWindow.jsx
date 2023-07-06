@@ -1,9 +1,8 @@
+
 import React from 'react';
 import LoginButton from './LoginButton';
-import { RiFacebookCircleFill } from "react-icons/ri";
 
-function LoginWindow() {
-    let facebookLogo = <RiFacebookCircleFill />;
+function LoginWindow({ signIn, facebookSignIn }) {
 
     return (
         <div>
@@ -37,11 +36,23 @@ function LoginWindow() {
                             <p className="text-sm text-black mb-6 ">Forgot password?</p>
                             <div className='text-center'>
                                 <div >
-                                    <LoginButton authType="Google" logo={facebookLogo} />
+                                    <div className='w-[100%] bg-green-200 text-black py-2 px-4 rounded border-gray-300 flex justify-center items-center'>
+                                        <div>
+                                            <button onClick={signIn}>
+                                                Continue with Google
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="text-gray-500 my-4">or</div>
                                 <div>
-                                    <LoginButton logo={"there"} authType="Facebook" />
+                                <div className='w-[100%] bg-green-200 text-black py-2 px-4 rounded border-gray-300 flex justify-center items-center'>
+                                        <div>
+                                            <button onClick={facebookSignIn}>
+                                                Continue with Facebook
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
