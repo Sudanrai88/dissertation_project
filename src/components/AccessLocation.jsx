@@ -1,37 +1,31 @@
-import React from 'react'
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-function AccessLocation() { 
-    
- let allowLocationCheckbox;
-
-  const handleLocationPermission = (position) => {
-    console.log(position);
-    showNotification('Access Allowed');
-  };
-
-  const requestLocationAccess = () => {
-    if (allowLocationCheckbox.checked) {
-      navigator.geolocation.getCurrentPosition(
-        handleLocationPermission
-      );
-    }
-  };
-
-  const showNotification = (message) => {
-    if (Notification.permission === 'granted') {
-      new Notification(message);
-    } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission().then((permission) => {
-        if (permission === 'granted') {
-          new Notification(message);
-        }
-      });
-    }
-  };
-
+function AccessLocation() {
   useEffect(() => {
-    allowLocationCheckbox = document.getElementById('allowLocationCheckbox');
+    const handleLocationPermission = (position) => {
+      console.log(position);
+      showNotification('Access Allowed');
+    };
+
+    const requestLocationAccess = () => {
+      if (allowLocationCheckbox.checked) {
+        navigator.geolocation.getCurrentPosition(handleLocationPermission);
+      }
+    };
+
+    const showNotification = (message) => {
+      if (Notification.permission === 'granted') {
+        new Notification(message);
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            new Notification(message);
+          }
+        });
+      }
+    };
+
+    const allowLocationCheckbox = document.getElementById('allowLocationCheckbox');
     if (allowLocationCheckbox) {
       allowLocationCheckbox.addEventListener('change', requestLocationAccess);
     }
@@ -49,6 +43,6 @@ function AccessLocation() {
       <input type="checkbox" id="allowLocationCheckbox" />
     </div>
   );
-};
+}
 
 export default AccessLocation;

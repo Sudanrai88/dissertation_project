@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+//Only take in Location as text, send to the backend.
+
 
 const TypedLocation = () => {
   const [location, setLocation] = useState('');
@@ -14,7 +16,7 @@ const TypedLocation = () => {
     if (location.trim() === '') {
       return;
     }
-    // Perform geocoding to convert location to coordinates
+    // Perform geocoding to convert location to coordinates, useful later to send ot backend
     geocodeLocation(location)
       .then((coordinates) => {
         setLatitude(coordinates.latitude);
@@ -58,7 +60,7 @@ const TypedLocation = () => {
       {latitude !== null && longitude !== null && (
         <div>
           <h3>Coordinates:</h3>
-          <p>Latitude: {latitude}</p>
+          <p>Latitude: {latitude}</p> {/*Displayed in browser for now*/}
           <p>Longitude: {longitude}</p>
         </div>
       )}
