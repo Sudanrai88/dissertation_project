@@ -1,18 +1,22 @@
 import '@/styles/globals.css';
 import React from 'react';
+import { useEffect } from 'react';
 import { getAuth } from "firebase/auth";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { initFirebase } from '@/firebase/firebaseApp';
 import { useRouter } from 'next/navigation';
+import AccessLocation from '@/components/AccessLocation';
+import TypedLocation from '@/components/TypedLocation';
+
 
 function dashboard() {
+
   initFirebase();
   const auth = getAuth();
   const router = useRouter();
   const [user, loading] = useAuthState(auth);
-
   if (loading) {
-    return <div> Loading </div>;
+    return <div> Loading 😠 </div>;
   }
 
   if (!user) {
@@ -22,14 +26,19 @@ function dashboard() {
   return (
     <div>
       <div>
+        <button> Continue with DASHBOARD,</button>
+      </div>
+      <div>
+        <button onClick={() => auth.signOut()}> Logout </button>
+      </div>
+      <div>
         <button>
-          Continue with DASHBOARD
+          Generate
+          <AccessLocation />
         </button>
       </div>
       <div>
-        <button onClick={() => auth.signOut()}>
-          Logout
-        </button>
+        <TypedLocation />
       </div>
     </div>
 

@@ -16,7 +16,7 @@ export default function Login() {
   const router = useRouter();
 
   if (loading) {
-    return <div> Loading... </div>;
+    return <div> Loading 😠 </div>;
   }
 
   if (user) {
