@@ -7,6 +7,7 @@ import { initFirebase } from '@/firebase/firebaseApp';
 import { useRouter } from 'next/navigation';
 import AccessLocation from '@/components/AccessLocation';
 import TypedLocation from '@/components/TypedLocation';
+import Link from 'next/link';
 
 
 function dashboard() {
@@ -32,13 +33,11 @@ function dashboard() {
         <button onClick={() => auth.signOut()}> Logout </button>
       </div>
       <div>
-        <button>
-          Generate
-          <AccessLocation />
+        <Link href="/generatePage"> 
+        <button className='border'>
+          generate 
         </button>
-      </div>
-      <div>
-        <TypedLocation />
+        </Link>
       </div>
     </div>
 
