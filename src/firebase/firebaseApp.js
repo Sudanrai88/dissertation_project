@@ -6,6 +6,9 @@ import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+//The apiKey in this configuration snippet just identifies your Firebase project on the Google servers. Does not have to be private.
+
 const firebaseConfig = {
   apiKey: "AIzaSyA74fkfmWmw6JLmIOQyfkoaYzQBaVqj48U",
   authDomain: "touristic-itinerary-planner.firebaseapp.com",
