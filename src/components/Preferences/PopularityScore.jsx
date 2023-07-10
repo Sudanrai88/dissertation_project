@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 function PopularityScore() {
     const [selectedOption, setSelectedOption] = useState(''); //useState initilaizes selectedOption. It is intially
@@ -12,7 +12,7 @@ function PopularityScore() {
 
    return (
     <div>
-      <h3> How expensive do you want your itinerary to be?: </h3>
+      <h3> Care about popularity?: </h3>
       <select value={selectedOption} onChange={handleChange}>
         <option value="">--Select--</option>
         <option value="Free">Price level 0</option>

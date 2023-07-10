@@ -7,10 +7,11 @@ import {useAuthState} from 'react-firebase-hooks/auth'
 
 export default function Login() {
   initFirebase();
+  
   const googleProvider = new GoogleAuthProvider();
   const auth = getAuth();
   const facebookProvider = new FacebookAuthProvider();
-  
+
 
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
