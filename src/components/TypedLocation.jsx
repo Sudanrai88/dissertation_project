@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 //Only take in Location as text, send to the backend.
 
 
-const TypedLocation = () => {
+const TypedLocation = ({setLocationText}) => {
   const [location, setLocation] = useState('');
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
@@ -39,6 +39,8 @@ const TypedLocation = () => {
     if (data.status === 'OK' && data.results.length > 0) {
       const result = data.results[0];
       const { lat, lng } = result.geometry.location;
+      setLocationText(location);
+      
       return { latitude: lat, longitude: lng };
     } else {
       throw new Error('Geocoding failed');

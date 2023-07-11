@@ -1,35 +1,27 @@
 import React, { useEffect } from 'react';
 
-function AccessLocation() {
+function AccessLocation( {setAccessedLatitude, setAccessedLongitude} ) {
   useEffect(() => {
     const handleLocationPermission = (position) => {
-      console.log(position);
-      showNotification('Access Allowed');
+      const LocationData = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      };
+      setAccessedLongitude(LocationData.longitude);
+      setAccessedLatitude(LocationData.latitude);
+      alert('Access Allowed')
     };
+    
 
     const requestLocationAccess = () => {
       if (allowLocationCheckbox.checked) {
         navigator.geolocation.getCurrentPosition(handleLocationPermission);
       }
     };
-
-    const showNotification = (message) => {
-      if (Notification.permission === 'granted') {
-        new Notification(message);
-      } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission().then((permission) => {
-          if (permission === 'granted') {
-            new Notification(message);
-          }
-        });
-      }
-    };
-
     const allowLocationCheckbox = document.getElementById('allowLocationCheckbox');
     if (allowLocationCheckbox) {
       allowLocationCheckbox.addEventListener('change', requestLocationAccess);
     }
-
     return () => {
       if (allowLocationCheckbox) {
         allowLocationCheckbox.removeEventListener('change', requestLocationAccess);

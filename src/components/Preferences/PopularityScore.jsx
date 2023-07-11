@@ -15,11 +15,11 @@ function PopularityScore() {
       <h3> Care about popularity?: </h3>
       <select value={selectedOption} onChange={handleChange}>
         <option value="">--Select--</option>
-        <option value="Free">Price level 0</option>
-        <option value="Inexpensive">Price level 1</option>
-        <option value="Moderate">Price level 2</option>
-        <option value="Expensive">Price level 3</option>
-        <option value="Very Expensive">Price level 4</option>
+        <option value="No">0</option>
+        <option value="Not really">1</option>
+        <option value="Somewhat">2</option>
+        <option value="Yes">3</option>
+        <option value="Matters a lot">4</option>
       </select>
       {selectedOption && <p>You selected: {selectedOption}</p>}
     </div>
