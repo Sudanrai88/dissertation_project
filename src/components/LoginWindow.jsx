@@ -1,6 +1,5 @@
 
 import React from 'react';
-import LoginButton from './LoginButton';
 
 function LoginWindow({ signIn, facebookSignIn }) {
 

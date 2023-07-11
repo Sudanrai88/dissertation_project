@@ -1,15 +1,22 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import PlaceTypes from './PlaceTypes'
 import PopularityScore from './PopularityScore'
 import AccessibilityScore from './AccessibilityScore'
 import CostScore from './CostScore'
 
-function PreferenceSelector() {
-  const [types, setTypes] = useState([]);
+function PreferenceSelector({setPreferences}) {
+  const [groupTypes, setGroupTypes] = useState([""]);
   const [costScore, setCostScore] = useState('');
   const [popularityScore, setPopularityScore] = useState('');
   const [accessibilityScore, setAccessibilityScore] = useState('');
 
+  useEffect(() => {
+    setPreferences({
+    'groupTypes': groupTypes, 
+    'popularityScore': popularityScore,
+    'costScore': costScore,
+    'accessibilityScore':accessibilityScore})
+  }, [groupTypes, popularityScore, costScore, accessibilityScore])
 
   return (
     <div>
@@ -17,16 +24,16 @@ function PreferenceSelector() {
       <h1> User selected Preferences </h1>
     </div>
     <div>
-      <PlaceTypes />
+      <PlaceTypes setGroupTypes={setGroupTypes}/>
     </div>
       <div>
-        <CostScore />
+        <CostScore setCostScore={setCostScore} />
       </div>
       <div>
-        <PopularityScore />
+        <PopularityScore setPopularityScore={setPopularityScore} />
       </div>
       <div>
-        <AccessibilityScore />
+        <AccessibilityScore setAccessibilityScore={setAccessibilityScore} />
       </div>
   
     </div>

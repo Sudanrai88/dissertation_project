@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
-function AccessibilityScore() {
+function AccessibilityScore({setAccessibilityScore}) {
     const [selectedOption, setSelectedOption] = useState(''); //useState initilaizes selectedOption. It is intially
     //initialised to " ". setSelecttedOptioin is a function that will update the current state (selectedOption).
 
@@ -10,16 +10,20 @@ function AccessibilityScore() {
       setSelectedOption(e.target.value);
     };
 
+    useEffect(() => {
+      setAccessibilityScore(selectedOption);
+    }, [selectedOption]);
+
    return (
     <div>
       <h3> Do you care about accessibility?: </h3>
       <select value={selectedOption} onChange={handleChange}>
         <option value="">--Select--</option>
-        <option value="Nope!">Nope!</option>
-        <option value="Not really">Not really</option>
-        <option value="Don't care">Don't care</option>
-        <option value="A little">A little</option>
-        <option value="Yes!">Yes!</option>
+        <option value="0">Nope!</option>
+        <option value="1">Not really</option>
+        <option value="2">Don't care</option>
+        <option value="3">A little</option>
+        <option value="4">Yes!</option>
       </select>
       {selectedOption && <p>You selected: {selectedOption}</p>}
     </div>

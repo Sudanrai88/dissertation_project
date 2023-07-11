@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-function PlaceTypes() {
+function PlaceTypes({setGroupTypes}) {
   const groupTypes = {
     'Food':['cafe', 'bar', 'bakery', 'restaurant'],
     'Tourist Spots':['tourist_attraction', 'point_of_interest', 'amusement_park', 'natural_feature'],
@@ -10,6 +10,10 @@ function PlaceTypes() {
   };
 
   const [selectedGroupTypes, setSelectedGroupTypes] = useState([]);
+
+  useEffect(() => {
+    setGroupTypes(selectedGroupTypes);
+  }, [selectedGroupTypes]);
 
   const handleCheckboxChange = (e) => {
     const value = e.target.value;
