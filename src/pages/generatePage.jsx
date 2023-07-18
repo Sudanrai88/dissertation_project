@@ -3,14 +3,25 @@ import AccessLocation from '@/components/AccessLocation';
 import TypedLocation from '@/components/TypedLocation';
 import RadiusSelector from '@/components/RadiusSelector';
 import PreferenceSelector from '@/components/Preferences/PreferenceSelector';
-import CostScore from '@/components/Preferences/CostScore';
+import { useRouter } from 'next/navigation';
+
+
+
 
 function generatePage() {
+
+ 
+
+
   const [preferences, setPreferences] = useState({});
   const [radius, setFetchRadius] = useState('');
   const [latitude, setAccessedLatitude] = useState('');
   const [longitude, setAccessedLongitude] = useState('');
   const [text, setLocationText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const router = useRouter();
 
   // Other state variables and functions for collecting data
 
@@ -20,6 +31,7 @@ function generatePage() {
     let accessibility = preferences['accessibilityScore'];
     let ArrayOfPlaces = preferences['groupTypes'];
 
+    
     const requestData = {
       text,
       Cost,
@@ -32,8 +44,10 @@ function generatePage() {
     };
     console.log('Request Data:', requestData);
 
-      try {
-        const response = await fetch('http://localhost:8080/api/search?text=' + text + 
+    setIsLoading(true); // Show loading state
+
+    try {
+      const response = await fetch('http://localhost:8080/api/search?text=' + text +
         '&Cost=' + Cost +
         '&popularity=' + popularity +
         '&accessibility=' + accessibility +
@@ -41,33 +55,56 @@ function generatePage() {
         '&radius=' + radius +
         '&latitude=' + latitude +
         '&longitude=' + longitude
-         , {mode:'cors'});
+        ,
+      );
+
+      if (response.ok) {
         const data = await response.json();
-        console.log({data})
+        console.log({ data })
+        router.push('/itineraryViewer');
+      } else {
+        // Handle error response
+        setErrorMessage('Error occurred during search');
       }
-      catch (error) {
-        console.log(error)
-      }
+    } catch (error) {
+      setErrorMessage('Error occurred during search');
+    }
+
+    setIsLoading(false); // Hide loading state
+  };
+
+  const showLoadingPage = () => {
+    // Render the loading page while isLoading is true
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    return null;
   };
 
   return (
     <div>
-      <div>
-        <button>
-          <AccessLocation setAccessedLatitude={setAccessedLatitude} setAccessedLongitude={setAccessedLongitude}/>
-        </button>
-      </div>
-      <div>
-        <TypedLocation setLocationText={setLocationText}   />
-      </div>
-      <div>
-        <RadiusSelector setFetchRadius={setFetchRadius} />
-      </div>
-      <div>
-        <PreferenceSelector setPreferences={setPreferences} />
-      </div>
-      <button onClick={handleSearch}>Search </button>
-    </div>
+    {isLoading && showLoadingPage()} {/* Show loading page when isLoading is true */}
+    {!isLoading && (
+      <>
+        <div>
+          <button>
+            <AccessLocation setAccessedLatitude={setAccessedLatitude} setAccessedLongitude={setAccessedLongitude} />
+          </button>
+        </div>
+        <div>
+          <TypedLocation setLocationText={setLocationText} />
+        </div>
+        <div>
+          <RadiusSelector setFetchRadius={setFetchRadius} />
+        </div>
+        <div>
+          <PreferenceSelector setPreferences={setPreferences} />
+        </div>
+        <button onClick={handleSearch}>Search</button>
+      </>
+    )}
+  </div>
   );
 }
 

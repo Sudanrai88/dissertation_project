@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-function LoginWindow({ signIn, facebookSignIn }) {
+function LoginWindow({ signIn, facebookSignIn}) {
 
     return (
         <div>
