@@ -29,9 +29,7 @@ const TypedLocation = ({setLocationText}) => {
 
   const geocodeLocation = async (location) => {
     const apiKey = 'AIzaSyCPK1WX2UJH0XJBMtdpV_MhGVwLeXi6ix0';
-    const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-      location
-    )}&key=${apiKey}`;
+    const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=${apiKey}`;
 
     const response = await fetch(geocodingUrl);
     const data = await response.json();

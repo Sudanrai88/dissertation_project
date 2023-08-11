@@ -6,11 +6,11 @@ import PreferenceSelector from '@/components/Preferences/PreferenceSelector';
 import { useRouter } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from "firebase/auth";
-import { initFirebase } from '@/firebase/firebaseApp';
+import NavBar from '@/components/NavBar';
 
 function generatePage() {
   const auth = getAuth();
-
+  
   const [user, loading] = useAuthState(auth);
   const [preferences, setPreferences] = useState({});
   const [radius, setFetchRadius] = useState('');
@@ -61,12 +61,16 @@ function generatePage() {
     },
   }
 
+  //After generate has been pressed, and the loading is finished. A modal/new page should pop-up that shows the temp Itineraries collection. Each Itinerary should be
+  //selectable. 
+
+
     try {
       const response = await fetch(backendEndpoint, request);
       if (response.ok) {
         const data = await response.json();
         console.log({ data })
-        router.push('/itineraryViewer');
+        router.push('/itineraryChooser');
       } else {
         // Handle error response
         setErrorMessage('Error occurred during search');
@@ -88,6 +92,9 @@ function generatePage() {
 
   return (
     <div className='flex flex-col'>
+    <div>
+      <NavBar />
+    </div>
       {isLoading && showLoadingPage()} {/* Show loading page when isLoading is true */}
       {!isLoading && (
         <>

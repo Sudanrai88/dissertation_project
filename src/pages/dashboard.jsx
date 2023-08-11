@@ -1,12 +1,8 @@
-import '@/styles/globals.css';
 import { React, useState, useEffect } from 'react';
 import { getAuth } from "firebase/auth";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { initFirebase } from '@/firebase/firebaseApp';
 import { useRouter } from 'next/navigation';
-import AccessLocation from '@/components/AccessLocation';
-import TypedLocation from '@/components/TypedLocation';
-import Link from 'next/link';
 import axios from 'axios';
 import Footer from '@/components/Footer';
 import RecentlyViewed from '@/components/Dashboard/RecentlyViewed';
@@ -64,6 +60,7 @@ function dashboard() {
       {/* Top Navbar */}
       <div className='w-full max-w-[1150px] mx-auto px-[20px]'>
         <NavBar />
+
       </div>
       <div className='flex flex-col items-center h-[30vw] m-auto max-w-[1150px] px-[20px]'>
         <div className='mr-[600px]'>
@@ -75,7 +72,7 @@ function dashboard() {
           </div>
         </div>
         <div>
-          
+
         </div>
 
         {/* Logout and Continue buttons */}
@@ -88,11 +85,11 @@ function dashboard() {
           </div>
         </div>
         {/* Footer */}
-        
+
       </div>
       <div className='w-full mt-auto'>
-          <Footer />
-        </div>
+        <Footer />
+      </div>
     </div>
 
   );
