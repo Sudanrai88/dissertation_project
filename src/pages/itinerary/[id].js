@@ -20,15 +20,21 @@ function ItineraryDetail() {
     const [directions, setDirections] = useState(null);
 
     const router = useRouter();
-    const { id } = router.query;
+    const { id, source } = router.query;
+
     const auth = getAuth();
     const [user, loading] = useAuthState(auth);
 
-
     //Fetch Itinerary
     useEffect(() => {
-        if (!id) return;
-        fetchItineraryDetails();
+        if (!id || !source) return;
+
+        if(source === "account") {
+            fetchItineraryDetails();
+        } else if (source === "dashboard") {
+            fetchPopularItineraryDetails();
+        }
+        
     }, [id, user]);
 
     //Directions Google Maps
@@ -82,6 +88,22 @@ function ItineraryDetail() {
         const token = await user.getIdToken();
 
         const response = await fetch(`http://localhost:8080/api/itinerary/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token,
+            },
+        });
+        const data = await response.json();
+        setItinerary(data);
+    }
+
+    async function fetchPopularItineraryDetails() {
+        if (!user) return;
+
+        const token = await user.getIdToken();
+
+        const response = await fetch(`http://localhost:8080/api/itinerary/popular/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

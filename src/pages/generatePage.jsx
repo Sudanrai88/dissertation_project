@@ -38,8 +38,6 @@ function generatePage() {
       accessibility,
       ArrayOfPlaces,
       radius,
-      latitude,
-      longitude,
     };
     console.log('Request Data:', requestData);
     setIsLoading(true); // Show loading state
@@ -49,10 +47,8 @@ function generatePage() {
     '&popularity=' + popularity +
     '&accessibility=' + accessibility +
     '&ArrayOfPlaces=' + ArrayOfPlaces +
-    '&radius=' + radius +
-    '&latitude=' + latitude +
-    '&longitude=' + longitude
-    
+    '&radius=' + radius 
+  
     const request = {
       method: 'GET',
       headers: {
@@ -92,17 +88,10 @@ function generatePage() {
 
   return (
     <div className='flex flex-col'>
-    <div>
-      <NavBar />
-    </div>
+    
       {isLoading && showLoadingPage()} {/* Show loading page when isLoading is true */}
       {!isLoading && (
         <>
-          <div>
-            <button>
-              <AccessLocation setAccessedLatitude={setAccessedLatitude} setAccessedLongitude={setAccessedLongitude} />
-            </button>
-          </div>
           <div>
             <TypedLocation setLocationText={setLocationText} />
           </div>

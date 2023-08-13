@@ -133,11 +133,60 @@ body {
   }
 }
 
+/*Accounts page */
+
 .account-page {
   font-family: Arial, sans-serif;
   padding: 0px;
   max-width: 100%;
   margin: 0 auto;
+}
+
+.col-xl-3 {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+.Profile {
+  max-width: 250px;
+  min-width: 230px;
+  min-height: 450px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 1px solid #e0e0e0;
+  padding: 24px 16px;
+  margin: 0 auto;
+}
+
+.profile-name {
+  text-align: center;
+  font-size: 1.5em;
+  margin-top: 10px;
+}
+
+.profile-email {
+  text-align: center;
+  font-size: 1em;
+  color: gray;
+  margin-top: 5px;
+}
+
+.profile-description {
+  margin-top: 10px;
+  border: 1px solid #e0e0e0;
+  padding: 5px;
+  border-radius: 5px;
+  resize: vertical;  /* allows the user to resize the textarea vertically */
+  width: 100%;
 }
 
 .itineraries {
@@ -233,3 +282,4 @@ body {
   transform: translate(-50%, -50%);
   z-index: 10;
 }
+

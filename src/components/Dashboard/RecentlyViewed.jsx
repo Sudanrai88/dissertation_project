@@ -1,28 +1,20 @@
 import React from 'react'
 import Link from 'next/link'
 
-function RecentlyViewed( {responseFromBackend} ) {
+function RecentlyViewed({ responseFromBackend }) {
     return (
         <div>
-            <div className='max-w-[600px]'>
-                <div className='text-[40px] font-bold'>
-                    Plan a new personalised trip quickly
-                </div>
-                <br/>
-                <div>
-                    <Link href="/generatePage">
-                        {responseFromBackend ? (
-                            <button className='border'>Plan a new trip</button>
-                        ) : (
-                            <button className='border' disabled>Invalid JWT Token</button>
-                        )}
-                    </Link>
-                </div>
+            <div>
+                <Link href="/generatePage" className='z-10'>
+                    {responseFromBackend ?
+                        (<button className='border rounded-[10px] font-bold px-[16px] pb-[4px] pt-[2.5px] text-[20px] bg-[rgb(246,155,70)]'>Start</button>)
+                        :
+                        (<button className='border' disabled>Invalid JWT Token</button>)
+                    }
+                </Link>
             </div>
-
-
-
         </div>
+
 
     )
 }

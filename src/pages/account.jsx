@@ -5,10 +5,13 @@ import { getAuth } from "firebase/auth";
 import ItineraryList from "@/components/Account/ItineraryList";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
-
+import { useRouter } from 'next/navigation';
+import Hero from "@/components/Hero";
 
 function account() {
     const auth = getAuth();
+    const router = useRouter();
+
 
     //Simple accounts page that shows picture from google, name and description that should be able to be edited.
     //Each itinerary in the database should create a component that dynamically shows data from the database. Information should be fitted in the wireframed areas.
@@ -63,22 +66,81 @@ function account() {
         }
     }
 
+    async function addItineraryToPopular(itineraryId) {
+        console.log(itineraryId);
+
+        try {
+            if (!user) return;
+            const token = await user.getIdToken();
+
+            const response = await fetch(`http://localhost:8080/api/itinerary/addToPopular`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                },
+                body: JSON.stringify({ itineraryId }),
+            });
+
+            if (response.status === 200) {
+                console.log("Added!");
+
+            } else {
+                console.error("Failed to Add place");
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    }
+
     if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (!user) {
+        router.push("/")
+        return <div>Loading...</div>;
+
     }
 
 
     return (
         <div className="account-page">
-            <NavBar />
-            <div className="content max-w-[75%] m-auto">
-                <h2>Your Itineraries</h2>
-                <div className="itineraries">
-                    {itineraries.map(itinerary => (
-                        <ItineraryList key={itinerary.itineraryId} itinerary={itinerary} onDelete={deleteItinerary} />
-                    ))}
+            <NavBar startColour={"black"} endColour={"white"} />
+            <div>
+                <div className="flex max-w-[75%] m-auto py-[100px]">
+                    <div className="col-xl-3">
+                        <div className="Profile">
+                            <img src={user.imageURL} alt="/" className="profile-image" />
+                            <div className="profile-name">{user.name}</div>
+                            <div className="profile-email">{user.email}</div>
+                            <textarea className="profile-description" defaultValue={user.description}></textarea>
+                            <div className="mt-[50px] flex justify-center">
+                                <button className="border rounded-[8px] px-2 py-1 mx-[5px]"> edit </button>
+                                <button className="border rounded-[8px] px-2 py-1 mx-[5px]" onClick={() => auth.signOut()}>Logout</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="Itineraries max-w-[75%]">
+                        <h2>Your Itineraries</h2>
+                        <div className="flex flex-row">
+                            {itineraries.map(itinerary => (
+                                <ItineraryList
+                                    key={itinerary.itineraryId}
+                                    itinerary={itinerary}
+                                    addItineraryToPopular={addItineraryToPopular}
+                                    showActions={true}
+                                    showPopular={false}
+                                    source="account" />
+                            ))}
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
+
             <Footer />
         </div>
     );
