@@ -87,24 +87,28 @@ function generatePage() {
   };
 
   return (
-    <div className='flex flex-col'>
-    
-      {isLoading && showLoadingPage()} {/* Show loading page when isLoading is true */}
+    <>
+      {isLoading && showLoadingPage()}
       {!isLoading && (
         <>
-          <div>
+        <NavBar startColour={"black"} endColour={"white"} />
+        <div className='flex flex-col m-auto px-15 custom1:max-w-[1400px] max-w-[90%] justify-center items-center mt-[100px] leading-[200%]'>
+
+        <div className='sm:max-w-[620px] max-w-[90%] md:max-w-[820px]'>
+          <h1 class="text-2xl sm:text-4xl font-bold mb-8 sm:mb-12 ">Tell us your travel preferences</h1>
             <TypedLocation setLocationText={setLocationText} />
-          </div>
-          <div>
+            <hr className='my-[64px]'/>
             <RadiusSelector setFetchRadius={setFetchRadius} />
-          </div>
-          <div>
+            <hr className='my-[64px]'/>
             <PreferenceSelector setPreferences={setPreferences} />
-          </div>
           <button onClick={handleSearch}>Search</button>
+        </div>
+        </div>
+        
+          
         </>
       )}
-    </div>
+    </>
   );
 }
 

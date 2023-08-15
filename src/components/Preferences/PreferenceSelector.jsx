@@ -19,10 +19,8 @@ function PreferenceSelector({setPreferences}) {
   }, [groupTypes, popularityScore, costScore, accessibilityScore])
 
   return (
-    <div>
-    <div>
-      <h1> User selected Preferences </h1>
-    </div>
+    <div className='flex flex-col'>
+    
     <div>
       <PlaceTypes setGroupTypes={setGroupTypes}/>
     </div>

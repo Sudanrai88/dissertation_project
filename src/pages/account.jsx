@@ -108,7 +108,7 @@ function account() {
         <div className="account-page">
             <NavBar startColour={"black"} endColour={"white"} />
             <div>
-                <div className="flex max-w-[75%] m-auto py-[100px]">
+                <div className="flex max-w-[1140px] m-auto py-[100px]">
                     <div className="col-xl-3">
                         <div className="Profile">
                             <img src={user.imageURL} alt="/" className="profile-image" />
@@ -122,17 +122,21 @@ function account() {
                         </div>
                     </div>
 
-                    <div className="Itineraries max-w-[75%]">
+                    <div className="Itineraries max-w-[75%] justify-center">
                         <h2>Your Itineraries</h2>
-                        <div className="flex flex-row">
+                        <div className="flex flex-row flex-wrap">
                             {itineraries.map(itinerary => (
+                                <div className="mt-[48px]">
                                 <ItineraryList
+    
                                     key={itinerary.itineraryId}
                                     itinerary={itinerary}
                                     addItineraryToPopular={addItineraryToPopular}
                                     showActions={true}
                                     showPopular={false}
+                                    onDelete={deleteItinerary}
                                     source="account" />
+                                    </div>
                             ))}
                         </div>
                     </div>

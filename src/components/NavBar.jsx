@@ -45,7 +45,7 @@ function NavBar({ startColour, endColour }) {
                         </Link>
                     </li>
                     <li className='p-4'>
-                        <Link href='/about'>
+                        <Link href='/explore'>
                             <h1>Explore</h1>
                         </Link>
                     </li>

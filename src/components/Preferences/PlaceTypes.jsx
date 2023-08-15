@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-function PlaceTypes({setGroupTypes}) {
+function PlaceTypes({ setGroupTypes }) {
   const groupTypes = {
-    'Food':['cafe', 'bar', 'bakery', 'restaurant'],
-    'Tourist Spots':['tourist_attraction', 'point_of_interest', 'amusement_park', 'natural_feature'],
-    'Art':['art_gallery', 'museum'],
-    'Active':['stadium', 'amusement_park'],
-    'Relaxed':['book_store', 'cafe', 'painter'],
+    'Food': ['cafe', 'bar', 'bakery', 'restaurant'],
+    'Tourist Spots': ['tourist_attraction', 'point_of_interest', 'amusement_park', 'natural_feature'],
+    'Art': ['art_gallery', 'museum'],
+    'Active': ['stadium', 'amusement_park'],
+    'Relaxed': ['book_store', 'cafe', 'painter'],
   };
 
   const [selectedGroupTypes, setSelectedGroupTypes] = useState([]);
@@ -15,34 +15,36 @@ function PlaceTypes({setGroupTypes}) {
     setGroupTypes(selectedGroupTypes);
   }, [selectedGroupTypes]);
 
-  const handleCheckboxChange = (e) => {
-    const value = e.target.value;
-
-    if (e.target.checked) {
-      if (selectedGroupTypes.length < 2)
-      setSelectedGroupTypes([...selectedGroupTypes, value]);
+  function handleButtonClick(groupName) {
+    if (selectedGroupTypes.includes(groupName)) {
+      setSelectedGroupTypes(prev => prev.filter(g => g !== groupName));
     } else {
-      setSelectedGroupTypes(selectedGroupTypes.filter((group) => group !== value));
+      if (selectedGroupTypes.length < 2) {
+        setSelectedGroupTypes(prev => [...prev, groupName]);
+      }
     }
-  };
-  
+  }
+
   return (
     <div>
-      <h3>What type of places are you interested in visiting?</h3>
-      <p> Select a maximum of 2 types.</p>
+      <h3 className='text-[20px] mb-[10px]'>What type of activities are you interested in?</h3>
+      <p className='text-[16px] mb-[16px] text-gray-600 font-thin '> Select a maximum of 2 types.</p>
 
+      <div className='flex flex-row justify-between'>
       {Object.entries(groupTypes).map(([groupName, placeTypes]) => (
-        <label key={groupName}>
-          <input
-            type="checkbox"
-            value={groupName}
-            checked={selectedGroupTypes.includes(groupName)}
-            onChange={handleCheckboxChange}
-          />
-          {groupName}
-        </label>
+        
+          <label key={groupName} className='w-1/5' >
+            <button
+              key={groupName}
+              className={`px-4 border cursor-pointer m-[5px] w-[90%] ${selectedGroupTypes.includes(groupName) ? 'border-blue-600' : ''}`}
+              onClick={() => handleButtonClick(groupName)}
+            >
+              {groupName}
+            </button>
+          </label>
+        
       ))}
-      <p>You selected: {selectedGroupTypes.join(', ')}</p>
+      </div>
     </div>
   );
 }

@@ -1,28 +1,26 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from "firebase/auth";
-import { useRouter } from 'next/navigation';
-import Image from "next/image";
+import { useRouter } from 'next/router'; // Corrected 'next/navigation' to 'next/router'
+import Image from "next/image"; // Using the modern 'next/image'
 
 const NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-function itineraryChooser() {
+function ItineraryChooser() {
   const router = useRouter();
   const auth = getAuth();
+  const [user, loading] = useAuthState(auth);
 
   const [itineraries, setItineraries] = useState([]);
-  const [itineraryName, setItineraryName] = useState("");
-  const [user, loading] = useAuthState(auth);
   const [photos, setPhotos] = useState({});
+  const [itineraryName, setItineraryName] = useState("");
 
   // Modal state
   const [showModal, setShowModal] = useState(false);
   const [activeDestination, setActiveDestination] = useState(null);
 
-  
-
   useEffect(() => {
-    const fetchTempItineraries = async () => {
+    async function fetchTempItineraries() {
       if (!user) return;
 
       const token = await user.getIdToken();
@@ -35,7 +33,7 @@ function itineraryChooser() {
       setItineraries(data);
 
       data.forEach(fetchTempDestinationPhoto);
-    };
+    }
 
     fetchTempItineraries();
   }, [user]);
@@ -59,10 +57,13 @@ function itineraryChooser() {
     setPhotos(prevPhotos => ({ ...prevPhotos, [itineraryId]: photoUrls }));
   }
 
-  const handleImageClick = (destination) => {
-    setActiveDestination(destination);
+  const handleImageClick = (destination, imageUrl) => {
+    setActiveDestination({
+      ...destination,
+      image: imageUrl
+    });
     setShowModal(true);
-  };
+  }
 
   const handleSelect = async (itineraryId) => {
     const token = await user.getIdToken();
@@ -82,8 +83,8 @@ function itineraryChooser() {
     }
   }
 
-  const setErrorMessage = () => {
-    console.log("Something went wrong....")
+  const setErrorMessage = (message) => {
+    console.error(message);  // Logging error to console
   }
 
   if (loading) {
@@ -91,52 +92,89 @@ function itineraryChooser() {
   }
 
   return (
-    <div>
+    <div className="px-4 py-6 flex flex-col max-w-[1140px] m-auto">
       <input
         type="text"
         value={itineraryName}
         onChange={(e) => setItineraryName(e.target.value)}
         placeholder="Enter Itinerary Name"
+        className="border p-2 rounded w-full"
       />
-      {itineraries.map((itinerary, index) => (
-        <div key={itinerary.id} style={{ border: '1px solid black', margin: '10px', padding: '10px' }}>
-          <h2>Itinerary {index + 1}</h2>
-          <div style={{ display: 'flex', gap: '16px', overflowX: 'auto' }}>
-
-            {itinerary.listOfDestinations && itinerary.listOfDestinations.map((destination, destIndex) => (
-              <div key={destination.id} style={{ flex: 'none' }}>
-                <div>{destination.name} Rating: {destination.rating}</div>
-                <div 
-                  className="relative h-[100px] w-[150px] rounded-[20px] cursor-pointer"
-                  onClick={() => handleImageClick(destination)} // Set onClick handler here
-                >
-                  {photos[itinerary.itineraryId] && photos[itinerary.itineraryId][destIndex] &&
-                    <Image objectFit={'contain'} fill src={photos[itinerary.itineraryId][destIndex]} alt="YAAAh"  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"/>}
-                </div>
-              </div>
-            ))}
+      <div className="w-[100%] ">
+        {itineraries.map((itinerary, index) => (
+          <div className="">
+            <Itinerary key={itinerary.id} itinerary={itinerary} index={index} handleImageClick={handleImageClick} handleSelect={handleSelect} photos={photos} />
           </div>
-          <button onClick={() => handleSelect(itinerary.itineraryId)}>Select</button>
-        </div>
-      ))}
+        ))}
+      </div>
+      <div>
+          left side
+      </div>
 
-      {showModal && activeDestination && (
-  <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70 flex items-center justify-center">
-    <div className="w-[40%] h-[50%] bg-white p-5 rounded-lg flex">
-      <div className="flex-1 mr-5 max-h-[60%] max-w-[70%]">
-        <Image objectFit={'contain'} layout={'responsive'} width={400} height={300} src={activeDestination?.image} alt="Destination" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
-      </div>
-      <div className="flex-2">
-        <h2>{activeDestination?.name}</h2>
-        <p>Rating: {activeDestination?.rating}</p>
-        <p>Description: {/* Here, you can add more details about the destination. */}</p>
-        <button onClick={() => setShowModal(false)} className="border border-gray-500 px-3 py-1 rounded hover:bg-gray-200">Close</button>
-      </div>
-    </div>
-  </div>
-)}
+
+      {showModal && <DestinationModal activeDestination={activeDestination} onClose={() => setShowModal(false)} />}
+
     </div>
   );
 }
 
-export default itineraryChooser;
+const Itinerary = ({ itinerary, index, handleImageClick, handleSelect, photos }) => (
+  <div className="p-4 max-w-[80%]">
+    <h2 className="text-xl mb-4">Itinerary {index + 1}</h2>
+    <div className="flex gap-4 ">
+
+      {itinerary.listOfDestinations?.map((destination, destIndex) => (
+        <div className="w-[20%]">
+
+          <Destination
+            key={destination.id}
+            destination={destination}
+            handleImageClick={() => handleImageClick(destination, photos[itinerary.itineraryId][destIndex])}
+            photo={photos[itinerary.itineraryId] && photos[itinerary.itineraryId][destIndex]}
+          />
+        </div>
+      ))}
+
+    </div>
+    <button className="mt-4 border p-2 hover:bg-gray-200 rounded" onClick={() => handleSelect(itinerary.itineraryId)}>Select</button>
+  </div>
+);
+
+const Destination = ({ destination, handleImageClick, photo }) => (
+  <div className="flex-none">
+    <div
+      className="mb-2 whitespace-nowrap overflow-hidden overflow-ellipsis w-[140px]" // Adjust w-[140px] to your preference
+      title={destination.name}  // Tooltip to show full name on hover
+    >
+      {destination.name}
+    </div>
+    <div
+      className="relative h-[100px] w-[150px] rounded-lg cursor-pointer"
+      onClick={handleImageClick}
+    >
+      {photo && <Image objectFit='cover' layout="fill" src={photo} alt="Destination Image" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />}
+    </div>
+  </div>
+);
+
+const DestinationModal = ({ activeDestination, onClose }) => (
+  <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70 flex items-center justify-center">
+    <div className="w-[40%] h-[50%] bg-white p-5 flex">
+      <div className=" relative mr-5 h-[100%] w-[60%] max-h-[100%] max-w-[60%]">
+        <Image objectFit={'cover'} layout={'fill'} src={activeDestination?.image} alt="Destination" />
+      </div>
+      <div className="flex-2">
+        <h2>{activeDestination?.name}</h2>
+        <p>Rating: {activeDestination?.rating}</p>
+        <p>Price Level: {activeDestination?.price}</p>
+        <p>Description: {/* Destination description?? Receive from somewhere? Another API call?? */}</p>
+        <button onClick={onClose} className="border border-gray-500 px-3 py-1 rounded hover:bg-gray-200">Close</button>
+      </div>
+    </div>
+  </div>
+);
+
+export default ItineraryChooser;
+
+/* FOR TOMORROW, CHAT has reformtted code. What needs to be done tomorrow is the generatePage should be PRETTIER / BETTER. THEN FINISH OFF THE CHOOSER PAGE. */
+

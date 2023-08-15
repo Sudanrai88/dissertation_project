@@ -13,6 +13,7 @@ import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 const NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 function ItineraryList({ popItineraries, source, itinerary, onDelete, addItineraryToPopular, showActions, showPopular }) {
+
     const router = useRouter();
     const [photoUrl, setPhotoUrl] = useState('');
     const auth = getAuth();
@@ -125,20 +126,22 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
 
     return (
         <div className="flex">
-            <div className="px-4">
-                <div className='relative h-[200px] w-[250px] rounded-[20px]' onClick={handleItineraryClick}>
-
-                    {photoUrl && <Image objectFit={'contain'} layout={'fill'} src={photoUrl} alt="Destination" />}
+            <div className="px-4 h-[380px] w-[400px] pb-[100px] sm:py-0 sm:h-[270px] sm:w-[290px]">
+            <div className={`relative sm:h-[165px] sm:w-[253px] h-[100%] w-[100%] rounded-[20px]`} onClick={handleItineraryClick}>
+                    {photoUrl && <Image className="rounded-[10px]" objectFit='cover' layout="fill" src={photoUrl} alt="Destination Image" />}
 
                     {showActions && (
                         <div
-                            className="absolute top-2 right-2 cursor-pointer bg-white px-[5px] rounded-[50%]"
+                            className="absolute top-2 right-2 cursor-pointer bg-[rgba(33,37,41,.502)] px-[6px] rounded-full "
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setActionModalOpen(!isActionModalOpen);  // toggle the modal's visibility
                             }}
                         >
-                            ...
+                        <div className='items-center text-white'>
+                        ≡
+                        </div>
+                            
                             {isActionModalOpen && (
                                 <div className="absolute mt-2 right-0 bg-white rounded  p-2">
                                     <button onClick={() => {
@@ -159,21 +162,26 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
                     )}
 
                 </div>
-                <div className='flex flex-row justify-between'>
-                    <h3 onClick={() => router.push(`/itinerary/${currentItinerary.itineraryId}`)}>{currentItinerary.itineraryId}</h3>
+                <div className='p-[4px] text-[17px] font-medium'>
+                    <h3 onClick={handleItineraryClick}> {currentItinerary.itineraryId}</h3>
                 </div>
                 {showPopular && (
                     <>
-                        <div className='Description'>
-                            Hello there
+                        <div className='Description px-[4px] overflow-hidden whitespace-nowrap truncate w-[263px]'>
+                            Hello there Hello there Hello there v Hello there
                         </div>
-                        <div className='Likes'>
-                            <FontAwesomeIcon
+                        <div className='Likes px-[4px]'>
+                            
+                            <p>
+                               <FontAwesomeIcon
                                 icon={isLiked ? fasHeart : farHeart}
                                 onClick={handleLikeClick}
                                 className="cursor-pointer transform hover:scale-110 transition-transform duration-150"  // Tailwind classes for hover effect
-                            />
-                            {popItineraries.userLikes}
+                            /> {popItineraries.userLikes}
+                            </p>
+                                
+                            
+                               
                         </div>
                     </>
                 )}

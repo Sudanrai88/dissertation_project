@@ -2,7 +2,7 @@ import React from 'react'
 import RecentlyViewed from './Dashboard/RecentlyViewed';
 
 
-function Hero({ heading, description, image, backgroundVH, showButton, opacity, responseFromBackend }) {
+function Hero({ heading, description, image, backgroundVH, showButton, opacity, responseFromBackend, text }) {
     console.log(image);
 
     const containerStyle = {
@@ -29,11 +29,9 @@ function Hero({ heading, description, image, backgroundVH, showButton, opacity, 
                 <div className='p-5 text-white z-[2]  mt-[-3rem] sm:ml-[-15rem]'>
                     <h2 className='text-5xl font-bold'>{heading}</h2>
                     <p className='py-5 text-xl'>{description}</p>
-                    <RecentlyViewed responseFromBackend={responseFromBackend} />
+                    <RecentlyViewed responseFromBackend={responseFromBackend} text={text} />
                 </div>
-                <div className='flex justify-center items-end text-white z-10 '>
-                    <p> scroll for more information!</p>
-                </div>
+            
         </div>
     )
 }

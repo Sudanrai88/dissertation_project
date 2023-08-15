@@ -10,6 +10,7 @@ import NavBar from '@/components/NavBar';
 import Image from 'next/image';
 import Hero from '@/components/Hero';
 import ItineraryList from '@/components/Account/ItineraryList';
+import Link from 'next/link';
 
 
 
@@ -49,7 +50,7 @@ function dashboard() {
   }, [user])
 
   useEffect(() => {
-  
+
     async function fetchPopularItineraries() {
       try {
         if (!user) return;
@@ -81,8 +82,16 @@ function dashboard() {
     router.push("/")
   }
 
+  const explore = () => {
+    <Link href="/explore">
+      <p>
+        explore
+      </p>
+    </Link>
+  }
+
   return (
-    <div className='w-[100%] overflow-hidden'>
+    <div className='overflow-hidden'>
 
       <div className='w-full max-w-[1150px] mx-auto px-[20px]'>
         <NavBar startColour={"white"} endColour={"black"} />
@@ -94,10 +103,47 @@ function dashboard() {
           <span className="block lg:hidden">Easy travelling</span>
         </>
       } description={'Have your trip generated!'} image={"assets/Backgroud.jpg"}
-        backgroundVH={"70vh"} showButton={false} opacity={'0.5'} responseFromBackend={responseFromBackend} />
+        backgroundVH={"70vh"} showButton={false} opacity={'0.4'} responseFromBackend={responseFromBackend} text={"Start"} />
+
+
+      <section className='flex flex-col m-auto px-15 custom1:max-w-[840px] max-w-[800px] justify-center items-center pt-[80px] leading-[200%]'>
+        <div className='flex flex-col'>
+          <h1 className='text-gray-800 text-[40px] font-bold flex justify-center pb-[60px]'>
+            Travel itinerary generator
+          </h1>
+          <div className=' relative content custom1:w-[500px] custom1:h-[400px]'>
+            <Image
+              className="rounded-[10px]" objectFit='cover' layout="fill" src="/assets/Backgroud.jpg" alt="Destination Image" />
+          </div>
+          <div className='text flex flex-col justify-center max-w-[500px] text-[20px] font-[400]'>
+            <h3 className='text-[#5182a4] py-6 font-bold text-[24px]'>
+              Quick easy trips planned for you instantly.
+            </h3>
+            <p className='pb-[36px]'>
+              Using the Gentrip website easily plan out your entire itinerary for the day!
+            </p>
+            <p className='pb-[36px]'>
+              Create a new personalized trip by pressing 'Start' above, or <Link href="/explore" className='font-bold'> explore </Link>
+              some of our pre-planned trips.
+            </p>
+            <p className='pb-[36px]'>
+              Create and share guides / itineraries to grow the community!
+            </p>
+            <p className='pb-[36px]'>
+              Feel free to change any generated itienrary to truly fit your choices.
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      <section className='flex m-auto px-15 py-[50px]'>
+        <div className='m-auto custom1:max-w-[840px] max-w-[800px]'>
+          <RecentlyViewed responseFromBackend={responseFromBackend} text={"Get started by clicking here!"} />
+        </div>
+      </section>
 
       {/* Popular Destinations Section */}
-      <div className='h-[50vh] max-w-[1140px] flex m-auto text-gray-800 mb-[25px] '>
+      <section className='px-15 custom1:max-w-[1160px] max-w-[800px] flex m-auto text-gray-800 mb-[25px] '>
 
         <div className='Content '>
           <div className='Title p-4 mt-[10px] '>
@@ -109,24 +155,30 @@ function dashboard() {
             </h2>
           </div>
 
-          <div className="Itineraries max-w-[75%]">
-            <div className="flex flex-row">
+          <div className="Itineraries">
+            <div className="flex flex-row flex-wrap justify-center items-center">
               {popItineraries.map(popItineraries => (
                 <ItineraryList
+                  className="w-full custom1:w-1/2"
                   key={popItineraries.itineraryId}
                   popItineraries={popItineraries}
-                  showActions={false} 
+                  showActions={false}
                   showPopular={true}
                   source="dashboard"
-                  />
+                />
               ))}
             </div>
           </div>
+
+          <Link href="/explore" >
+            <div className='px-[16px]'>
+              Find more here
+            </div>
+          </Link>
+
         </div>
 
-
-
-      </div>
+      </section>
 
 
       <div className='w-full mt-auto'>
