@@ -14,9 +14,10 @@ function PopularityScore({setPopularityScore}) {
     
 
    return (
-    <div>
-      <h3> Care about popularity?: </h3>
-      <select value={popularityScore} onChange={handleChange}>
+    <div className='flex flex-col'>
+
+      <h3 className='text-[20px] mb-[10px]'> Care about popularity? </h3>
+      <select value={popularityScore} onChange={handleChange} className='border p-2 rounded-[10px] bg-slate-50'>
         <option value="">--Select--</option>
         <option value="0">No</option>
         <option value="1">Not really</option>

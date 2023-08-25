@@ -17,9 +17,11 @@ function CostScore({setCostScore}) {
     }, [selectedOption]);
 
    return (
-    <div>
-      <h3> How expensive do you want your itinerary to be?: </h3>
-      <select value={selectedOption} onChange={handleChange}>
+    <div className='flex flex-col'>
+
+      <h3 className='text-[20px] mb-[10px]'> How expensive do you want your itinerary to be? </h3>
+      
+      <select value={selectedOption} onChange={handleChange} className='border p-2 rounded-[10px] bg-slate-50'> 
         <option value="">--Select--</option>
         <option value="0">Free</option>
         <option value="1">Inexpensive</option>

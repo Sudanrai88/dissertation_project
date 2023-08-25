@@ -24,12 +24,15 @@ function PreferenceSelector({setPreferences}) {
     <div>
       <PlaceTypes setGroupTypes={setGroupTypes}/>
     </div>
+    <hr className='my-[50px]'/>
       <div>
         <CostScore setCostScore={setCostScore} />
       </div>
+      <hr className='my-[50px]'/>
       <div>
         <PopularityScore setPopularityScore={setPopularityScore} />
       </div>
+      <hr className='my-[50px]'/>
       <div>
         <AccessibilityScore setAccessibilityScore={setAccessibilityScore} />
       </div>

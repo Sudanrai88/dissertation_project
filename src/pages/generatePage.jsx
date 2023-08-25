@@ -7,10 +7,11 @@ import { useRouter } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from "firebase/auth";
 import NavBar from '@/components/NavBar';
+import Footer from '@/components/Footer';
 
 function generatePage() {
   const auth = getAuth();
-  
+
   const [user, loading] = useAuthState(auth);
   const [preferences, setPreferences] = useState({});
   const [radius, setFetchRadius] = useState('');
@@ -29,7 +30,7 @@ function generatePage() {
   // Other state variables and functions for collecting data
 
   const handleSearch = async () => {
-    
+
     const token = await user.getIdToken();
     const requestData = {
       text,
@@ -43,22 +44,22 @@ function generatePage() {
     setIsLoading(true); // Show loading state
 
     const backendEndpoint = 'http://localhost:8080/api/search?text=' + text +
-    '&Cost=' + Cost +
-    '&popularity=' + popularity +
-    '&accessibility=' + accessibility +
-    '&ArrayOfPlaces=' + ArrayOfPlaces +
-    '&radius=' + radius 
-  
+      '&Cost=' + Cost +
+      '&popularity=' + popularity +
+      '&accessibility=' + accessibility +
+      '&ArrayOfPlaces=' + ArrayOfPlaces +
+      '&radius=' + radius
+
     const request = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      Authorization: token,
-    },
-  }
+        Authorization: token,
+      },
+    }
 
-  //After generate has been pressed, and the loading is finished. A modal/new page should pop-up that shows the temp Itineraries collection. Each Itinerary should be
-  //selectable. 
+    //After generate has been pressed, and the loading is finished. A modal/new page should pop-up that shows the temp Itineraries collection. Each Itinerary should be
+    //selectable. 
 
 
     try {
@@ -91,22 +92,25 @@ function generatePage() {
       {isLoading && showLoadingPage()}
       {!isLoading && (
         <>
-        <NavBar startColour={"black"} endColour={"white"} />
-        <div className='flex flex-col m-auto px-15 custom1:max-w-[1400px] max-w-[90%] justify-center items-center mt-[100px] leading-[200%]'>
+          <NavBar startColour={"black"} endColour={"white"} />
+          <div className='flex flex-col m-auto px-15 custom1:max-w-[1400px] max-w-[90%] justify-center items-center mt-[100px] leading-[200%]'>
+            <div className='sm:max-w-[620px] max-w-[90%] md:max-w-[820px]'>
+              <h1 class="text-2xl sm:text-4xl font-bold mb-8 sm:mb-12 ">Tell us your travel preferences</h1>
+              <TypedLocation setLocationText={setLocationText} />
+              <hr className='my-[64px]' />
+              <RadiusSelector setFetchRadius={setFetchRadius} />
+              <hr className='my-[64px]' />
+              <PreferenceSelector setPreferences={setPreferences} />
 
-        <div className='sm:max-w-[620px] max-w-[90%] md:max-w-[820px]'>
-          <h1 class="text-2xl sm:text-4xl font-bold mb-8 sm:mb-12 ">Tell us your travel preferences</h1>
-            <TypedLocation setLocationText={setLocationText} />
-            <hr className='my-[64px]'/>
-            <RadiusSelector setFetchRadius={setFetchRadius} />
-            <hr className='my-[64px]'/>
-            <PreferenceSelector setPreferences={setPreferences} />
-          <button onClick={handleSearch}>Search</button>
-        </div>
-        </div>
-        
-          
+                <div className='my-[64px] flex justify-center'>
+                  <button class="border rounded-[15px] text-white font-bold px-[16px] pb-[4px] pt-[2.5px] text-[20px] bg-[rgb(0,0,0)]" onClick={handleSearch}> Search </button>
+                </div>
+            </div>
+          </div>
+
+          <Footer />
         </>
+
       )}
     </>
   );

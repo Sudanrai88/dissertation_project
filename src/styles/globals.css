@@ -214,8 +214,6 @@ body {
 .left-content {
   flex: 1;
   overflow-y: auto;
-  background: #f5f5f5;
-  padding: 1rem;
 }
 
 .right-content {

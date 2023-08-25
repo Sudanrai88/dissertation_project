@@ -1,23 +1,24 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 
-function AccessibilityScore({setAccessibilityScore}) {
-    const [selectedOption, setSelectedOption] = useState(''); //useState initilaizes selectedOption. It is intially
-    //initialised to " ". setSelecttedOptioin is a function that will update the current state (selectedOption).
+function AccessibilityScore({ setAccessibilityScore }) {
+  const [selectedOption, setSelectedOption] = useState(''); //useState initilaizes selectedOption. It is intially
+  //initialised to " ". setSelecttedOptioin is a function that will update the current state (selectedOption).
 
-    //The handleChange function is triggered when the user selects something from the dropdown box. The event object
-    //is taken as a parameter. The target value of the event (the selected option) is now the current state.
-    const handleChange = (e) => {
-      setSelectedOption(e.target.value);
-    };
+  //The handleChange function is triggered when the user selects something from the dropdown box. The event object
+  //is taken as a parameter. The target value of the event (the selected option) is now the current state.
+  const handleChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
 
-    useEffect(() => {
-      setAccessibilityScore(selectedOption);
-    }, [selectedOption]);
+  useEffect(() => {
+    setAccessibilityScore(selectedOption);
+  }, [selectedOption]);
 
-   return (
-    <div>
-      <h3> Do you care about accessibility?: </h3>
-      <select value={selectedOption} onChange={handleChange}>
+  return (
+    <div className='flex flex-col'>
+
+      <h3 className='text-[20px] mb-[10px]'> Do you care about accessibility?: </h3>
+      <select value={selectedOption} onChange={handleChange} className='border p-2 rounded-[10px] bg-slate-50'>
         <option value="">--Select--</option>
         <option value="0">Nope!</option>
         <option value="1">Not really</option>
