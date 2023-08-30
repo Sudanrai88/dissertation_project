@@ -91,15 +91,21 @@ function ItineraryChooser() {
     return <div>Loading...</div>;
   }
 
+  console.log(itineraries)
+
   return (
-    <div className="px-4 py-6 flex flex-col max-w-[1140px] m-auto">
-      <input
-        type="text"
-        value={itineraryName}
-        onChange={(e) => setItineraryName(e.target.value)}
-        placeholder="Enter Itinerary Name"
-        className="border p-2 rounded w-full"
-      />
+    <div className="px-4 py-6 flex flex-col max-w-[1440px] m-auto">
+      <div className="flex justify-center items-center">
+
+        <input
+          type="text"
+          value={itineraryName}
+          onChange={(e) => setItineraryName(e.target.value)}
+          placeholder="Enter Itinerary Name"
+          className="border p-2 rounded w-[97%]"
+        />
+      </div>
+
       <div className="w-[100%] ">
         {itineraries.map((itinerary, index) => (
           <div className="">
@@ -108,24 +114,24 @@ function ItineraryChooser() {
         ))}
       </div>
       <div>
-          left side
+        left side
       </div>
 
-
       {showModal && <DestinationModal activeDestination={activeDestination} onClose={() => setShowModal(false)} />}
-
     </div>
   );
 }
 
 const Itinerary = ({ itinerary, index, handleImageClick, handleSelect, photos }) => (
-  <div className="p-4 max-w-[80%]">
-    <h2 className="text-xl mb-4">Itinerary {index + 1}</h2>
-    <div className="flex gap-4 ">
+
+  <div className="p-4 max-w-[100%]">
+    <h2 className="text-xl mb-4">
+      {itinerary.bestType ? `Best ${itinerary.bestType} Itinerary` : `Itinerary  ${index + 1}`}
+    </h2>
+    <div className="flex gap-4 overflow-x-auto whitespace-nowrap sm:flex-nowrap">
 
       {itinerary.listOfDestinations?.map((destination, destIndex) => (
-        <div className="w-[20%]">
-
+        <div className="w-[100%] md:w-[50%] sm:w-[50%] whitespace-normal">
           <Destination
             key={destination.id}
             destination={destination}
@@ -149,18 +155,18 @@ const Destination = ({ destination, handleImageClick, photo }) => (
       {destination.name}
     </div>
     <div
-      className="relative h-[100px] w-[150px] rounded-lg cursor-pointer"
+      className="relative h-[200px] w-[250px] rounded-lg cursor-pointer"
       onClick={handleImageClick}
     >
-      {photo && <Image objectFit='cover' layout="fill" src={photo} alt="Destination Image" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />}
+      {photo && <Image objectFit='cover' layout="fill" src={photo} alt="Destination Image" />}
     </div>
   </div>
 );
 
 const DestinationModal = ({ activeDestination, onClose }) => (
   <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70 flex items-center justify-center">
-    <div className="w-[40%] h-[50%] bg-white p-5 flex">
-      <div className=" relative mr-5 h-[100%] w-[60%] max-h-[100%] max-w-[60%]">
+    <div className="w-[90%] sm:w-[40%] h-[50%] bg-white p-5 flex flex-col sm:flex-row">
+      <div className=" relative mr-5 h-[100%] w-[100%] sm:w-[60%] max-h-[100%] max-w-[100%] sm:max-w-[60%]">
         <Image objectFit={'cover'} layout={'fill'} src={activeDestination?.image} alt="Destination" />
       </div>
       <div className="flex-2">

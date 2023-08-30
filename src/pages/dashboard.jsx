@@ -11,6 +11,7 @@ import Image from 'next/image';
 import Hero from '@/components/Hero';
 import ItineraryList from '@/components/Account/ItineraryList';
 import Link from 'next/link';
+import SideNavBar from '@/components/SideNavBar/SideNavBar';
 
 
 
@@ -50,7 +51,6 @@ function dashboard() {
   }, [user])
 
   useEffect(() => {
-
     async function fetchPopularItineraries() {
       try {
         if (!user) return;
@@ -92,10 +92,10 @@ function dashboard() {
 
   return (
     <div className='overflow-hidden'>
-
       <div className='w-full max-w-[1150px] mx-auto px-[20px]'>
         <NavBar startColour={"white"} endColour={"black"} />
       </div>
+      
 
       <Hero heading={
         <>
@@ -106,7 +106,7 @@ function dashboard() {
         backgroundVH={"70vh"} showButton={false} opacity={'0.4'} responseFromBackend={responseFromBackend} text={"Start"} />
 
 
-      <section className='flex flex-col m-auto px-15 custom1:max-w-[840px] max-w-[800px] justify-center items-center pt-[80px] leading-[200%]'>
+      <section className='flex flex-col m-auto px-[15px] sm:px-[0]  custom1:max-w-[840px] max-w-[800px] justify-center items-center pt-[80px] leading-[200%]'>
         <div className='flex flex-col'>
           <h1 className='text-gray-800 text-[40px] font-bold flex justify-center pb-[60px]'>
             Travel itinerary generator
@@ -157,7 +157,7 @@ function dashboard() {
 
           <div className="Itineraries">
             <div className="flex flex-row flex-wrap justify-center items-center">
-              {popItineraries.map(popItineraries => (
+              {popItineraries.slice(0, 4).map(popItineraries => (
                 <ItineraryList
                   className="w-full custom1:w-1/2"
                   key={popItineraries.itineraryId}
@@ -171,7 +171,7 @@ function dashboard() {
           </div>
 
           <Link href="/explore" >
-            <div className='px-[16px]'>
+            <div className='px-[16px] mt-[30px]'>
               Find more here
             </div>
           </Link>

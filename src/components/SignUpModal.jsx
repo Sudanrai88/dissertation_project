@@ -37,7 +37,7 @@ function SignUpModal({ onClose, signUp, signUpError }) {
                     <form onSubmit={formik.handleSubmit}>
                         <div className="mb-4">
                             <input
-                                className="w-[100%] px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-200"
+                                className="w-[100%] px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-200"
                                 type="email"
                                 placeholder="Email Address"
                                 name="email"
@@ -49,7 +49,7 @@ function SignUpModal({ onClose, signUp, signUpError }) {
                         </div>
                         <div className="mb-6">
                             <input
-                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-200"
+                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-200"
                                 type="password"
                                 placeholder="Password"
                                 name="password"
@@ -58,7 +58,6 @@ function SignUpModal({ onClose, signUp, signUpError }) {
                             />
                             {formik.touched.password && formik.errors.password ? <div className="text-red-500 mt-1">{formik.errors.password}</div> : null}
                         </div>
-                        {/* The input fields for email and password will be similar to your existing form, adjust them as needed */}
                         <button type='submit' onClick={signUp}>Sign Up</button>
                         {signUpError && <div className="text-red-500 mt-2 text-center">{signUpError}</div>}
 

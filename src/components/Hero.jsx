@@ -6,7 +6,7 @@ function Hero({ heading, description, image, backgroundVH, showButton, opacity, 
     console.log(image);
 
     const containerStyle = {
-        height: backgroundVH, // Set the height of the container using the backgroundVH prop
+        height: backgroundVH,
         backgroundImage: `url(${image})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
@@ -14,7 +14,7 @@ function Hero({ heading, description, image, backgroundVH, showButton, opacity, 
     };
 
     const overlay = {
-        height: backgroundVH, // Set the height of the overlay div using the backgroundVH prop
+        height: backgroundVH,
         top: 0,
         left: 0,
         right: 0,

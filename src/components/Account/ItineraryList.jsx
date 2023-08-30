@@ -12,7 +12,7 @@ import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 
 const NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-function ItineraryList({ popItineraries, source, itinerary, onDelete, addItineraryToPopular, showActions, showPopular }) {
+function ItineraryList({ popItineraries, source, itinerary, onDelete, addItineraryToPopular, showActions, showPopular, BottomMargin }) {
 
     const router = useRouter();
     const [photoUrl, setPhotoUrl] = useState('');
@@ -23,7 +23,7 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
     const [itineraryToDelete, setItineraryToDelete] = useState(null);
     const [itineraryToAdd, setItineraryToAdd] = useState(null);
     const [isActionModalOpen, setActionModalOpen] = useState(false);
-    const [isLiked, setIsLiked] = useState(false);  // Initial state, you might need to get this from props or another source
+    const [isLiked, setIsLiked] = useState(false);
 
     const currentItinerary = source === "dashboard" ? popItineraries : itinerary;
 
@@ -36,7 +36,7 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
         // Construct a unique key for local storage using the itinerary ID
         const storageKey = `photoUrl_${itineraryId}`;
 
-        // Check if image URL is already in local storage
+        // Check if image is in local storage
         const cachedUrl = localStorage.getItem(storageKey);
         if (cachedUrl) {
             console.log("From cache")
@@ -57,7 +57,7 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
         const likedInStorage = localStorage.getItem(likedStorageKey);
 
         if (likedInStorage) {
-            setIsLiked(likedInStorage === 'true');  // Convert string to boolean
+            setIsLiked(likedInStorage === 'true');
         }
     }, [itinerary, popItineraries]);
 
@@ -83,7 +83,6 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
             const likedStorageKey = `isLiked_${popItineraries.itineraryId}`;
             localStorage.setItem(likedStorageKey, String(!isLiked));
         } catch (error) {
-            // If there's an error, revert the optimistic update
             popItineraries.userLikes -= newValue;
             console.error("Error changing like:", error);
         }
@@ -122,14 +121,13 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
             query: { source: source }
         });
     }
-    
+
 
     return (
         <div className="flex">
-            <div className="px-4 h-[380px] w-[400px] pb-[100px] sm:py-0 sm:h-[270px] sm:w-[290px]">
-            <div className={`relative sm:h-[165px] sm:w-[253px] h-[100%] w-[100%] rounded-[20px]`} onClick={handleItineraryClick}>
+            <div className={`px-0 sm:px-2 h-[250px] w-[330px] smallerPhones:h-[300px] smallerPhones:w-[350px] ${BottomMargin} pb-[60px] sm:py-0 sm:h-[220px] sm:w-[270px]`}>
+                <div className={`relative sm:h-[165px] sm:w-[253px] h-[100%] w-[100%] rounded-[20px]`} onClick={handleItineraryClick}>
                     {photoUrl && <Image className="rounded-[10px]" objectFit='cover' layout="fill" src={photoUrl} alt="Destination Image" />}
-
                     {showActions && (
                         <div
                             className="absolute top-2 right-2 cursor-pointer bg-[rgba(33,37,41,.502)] px-[6px] rounded-full "
@@ -138,10 +136,10 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
                                 setActionModalOpen(!isActionModalOpen);  // toggle the modal's visibility
                             }}
                         >
-                        <div className='items-center text-white'>
-                        ≡
-                        </div>
-                            
+                            <div className='items-center text-white'>
+                                ≡
+                            </div>
+
                             {isActionModalOpen && (
                                 <div className="absolute mt-2 right-0 bg-white rounded  p-2">
                                     <button onClick={() => {
@@ -165,26 +163,30 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
                 <div className='p-[4px] text-[17px] font-medium'>
                     <h3 onClick={handleItineraryClick}> {currentItinerary.itineraryId}</h3>
                 </div>
-                {showPopular && (
-                    <>
-                        <div className='Description px-[4px] overflow-hidden whitespace-nowrap truncate w-[263px]'>
-                            Hello there Hello there Hello there v Hello there
-                        </div>
-                        <div className='Likes px-[4px]'>
-                            
-                            <p>
-                               <FontAwesomeIcon
-                                icon={isLiked ? fasHeart : farHeart}
-                                onClick={handleLikeClick}
-                                className="cursor-pointer transform hover:scale-110 transition-transform duration-150"  // Tailwind classes for hover effect
-                            /> {popItineraries.userLikes}
-                            </p>
-                                
-                            
-                               
-                        </div>
-                    </>
+                <div >
+                    {showPopular && (
+                        <>
+                            <div className='Description px-[4px] overflow-hidden whitespace-nowrap truncate w-[263px]'>
+                                Hello there Hello there Hello there v Hello there
+                            </div>
+                            <div className='Likes px-[4px]'>
+
+                                <p>
+                                    <FontAwesomeIcon
+                                        icon={isLiked ? fasHeart : farHeart}
+                                        onClick={handleLikeClick}
+                                        className="cursor-pointer transform hover:scale-110 transition-transform duration-150"  // Tailwind classes for hover effect
+                                    /> {popItineraries.userLikes}
+                                </p>
+
+
+
+                            </div>
+                        </>
+                
+                
                 )}
+                </div>
             </div>
 
             <ConfirmModal

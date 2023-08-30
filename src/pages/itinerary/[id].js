@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import SideNavBar from '@/components/SideNavBar/SideNavBar';
 
 
 
@@ -31,9 +32,14 @@ function ItineraryDetail() {
     const [itineraryUpdated, setItineraryUpdated] = useState(false);
     const [itinerarySwapped, setItinerarySwapped] = useState(false);
 
-    const [activeInputIndex, setActiveInputIndex] = useState(null); //Where is the new destination being added?
+
+    const [activeInputIndex, setActiveInputIndex] = useState(null);
     const [activeInputId, setActiveInputId] = useState(null);
     const [inputValue, setInputValue] = useState('');
+
+    const [photoUrls, setPhotoUrls] = useState({});
+    const [defaultCenter, setDefaultCenter] = useState(null);
+
 
     const router = useRouter();
     const { id, source } = router.query;
@@ -41,17 +47,27 @@ function ItineraryDetail() {
     const auth = getAuth();
     const [user, loading] = useAuthState(auth);
 
-    //Fetch Itinerary
+    //Fetch Itinerary, fix the explore click to show this page. Not all fetchPopularItineraryDetails
     useEffect(() => {
         if (!id || !source) return;
 
         if (source === "account") {
             fetchItineraryDetails();
+
         } else if (source === "dashboard") {
             fetchPopularItineraryDetails();
         }
 
     }, [id, user]);
+
+    useEffect(() => {
+        if (itinerary && itinerary.listOfDestinations) {
+            itinerary.listOfDestinations.forEach(destination => {
+                getDestinationImage(destination.placeId, destination.imagesRef);
+                console.log(photoUrls)
+            });
+        }
+    }, [itinerary]);
 
 
     //Directions Google Maps
@@ -68,7 +84,7 @@ function ItineraryDetail() {
             const destinationLong = itinerary.listOfDestinations[itinerary.listOfDestinations.length - 1].longitude;
             const waypoints = itinerary.listOfDestinations.slice(1, -1).map(location => ({
                 location: { lat: location.latitude, lng: location.longitude },
-                stopover: true,
+                stopover: false,
             }));
 
             directionsService.route(
@@ -80,9 +96,7 @@ function ItineraryDetail() {
                 },
                 (result, status) => {
                     if (status === window.google.maps.DirectionsStatus.OK) {
-                        console.log(directions)
                         setDirections(result);
-                        console.log(directions)
                     } else {
                         console.error(`error fetching directions ${result}`);
                     }
@@ -91,23 +105,13 @@ function ItineraryDetail() {
         }
     }
 
-
     useEffect(() => {
         if (itineraryUpdated) {
             fetchDirections();
-            // Reset the tracking variable after calling fetchDirections
+
             setItineraryUpdated(false);
         }
     }, [itineraryUpdated]);
-
-    useEffect(() => {
-        if (itinerarySwapped) {
-            //Update on map
-            fetchDirections();
-            // Update on the itinerary ???
-            setItinerarySwapped(false);
-        }
-    }, [itinerarySwapped]);
 
     //Fetch Itinerary Logic
     async function fetchItineraryDetails() {
@@ -122,6 +126,7 @@ function ItineraryDetail() {
             },
         });
         const data = await response.json();
+
         setItinerary(data);
     }
 
@@ -220,9 +225,8 @@ function ItineraryDetail() {
                 } else if (source === "dashboard") {
                     await fetchPopularItineraryDetails();
                 }
-
+                console.log(itinerary)
                 handlePressedSubmit();
-
                 setItineraryUpdated(true);
 
             } else {
@@ -246,9 +250,7 @@ function ItineraryDetail() {
 
     async function swapOrderIndex(source, toGoDestination) {
         const itineraryId = itinerary.itineraryId;
-        console.log(itineraryId);
-        console.log(source);
-        console.log(toGoDestination);
+        console.log("accessed")
 
         if (!user) return;
         const token = await user.getIdToken();
@@ -261,22 +263,35 @@ function ItineraryDetail() {
                 },
                 body: JSON.stringify({ source, itineraryId, toGoDestination }),
             });
-
-            if (response.ok) {        
-                if (source === "account") {
-                    await fetchItineraryDetails();
-
-                } else if (source === "dashboard") {
-                    await fetchPopularItineraryDetails();
-                }
-                setItinerarySwapped(true);
+            if (response.ok) {
+                fetchItineraryDetails();
             }
-
         } catch (error) {
             console.error(error);
 
         }
     }
+
+
+    const getDestinationImage = (placeId, photoRef) => {
+        const storageKey = `photoUrl_${placeId}`;
+        const cachedUrl = localStorage.getItem(storageKey);
+
+        if (cachedUrl) {
+            console.log("From cache");
+            setPhotoUrls(prevState => ({ ...prevState, [placeId]: cachedUrl }));
+        } else if (photoRef) {
+            const baseUrl = 'https://maps.googleapis.com/maps/api/place/photo';
+            const maxWidth = 400;
+            const finalUrl = `${baseUrl}?maxwidth=${maxWidth}&photo_reference=${photoRef}&key=${NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`;
+            console.log("callMade");
+
+            // Set the URL in the state
+            setPhotoUrls(prevState => ({ ...prevState, [placeId]: finalUrl }));
+            localStorage.setItem(storageKey, finalUrl);
+        }
+
+    };
 
     const handleOnDragEnd = (result) => {
         //Change the index of the destinations in the itinerary list (AS WELL AS DOING SO FOR THE BACKEND)
@@ -286,9 +301,8 @@ function ItineraryDetail() {
         const source = result.source.index + 1
         const toGoDestination = result.destination.index + 1
 
-
-
         swapOrderIndex(source, toGoDestination);
+
     }
 
     //Prompt for Modal
@@ -304,38 +318,29 @@ function ItineraryDetail() {
         width: "100%"
     };
 
-    let defaultCenter = { lat: 40.756795, lng: -73.954298 };  // Default to New York
+    const onMarkerClick = ((index, destination) => {
+        if (itinerary && itinerary.listOfDestinations.length > 0) {
+            console.log("changed2")
+            console.log(itinerary.listOfDestinations[index].latitude)
+            setDefaultCenter({
+                lat: itinerary.listOfDestinations[index].latitude,
+                lng: itinerary.listOfDestinations[index].longitude
+            });
+        }
 
-    if (itinerary && itinerary.listOfDestinations.length > 0) {
-        defaultCenter = {
-            lat: itinerary.listOfDestinations[0].originLocation[0],
-            lng: itinerary.listOfDestinations[0].originLocation[1]
-        };
-    }
+        setSelectedPlace(destination)
+
+    })
 
     if (!itinerary) return <div>Loading...</div>;
 
+
+    //Add an order to the map to itienrary
     return (
 
         <div className="itinerary-detail">
-            <div className='SideNav max-w-[150px] w-[150px] absolute lg:relative border-r'>
-                <div className='text-[20px] font-bold'>
-                    <Link href="/dashboard">
-                        GenTrip
-                    </Link>
-                </div>
-                <div>
-                    <button>
-                        Itinerary
-                    </button>
-                </div>
-                <div>
-                    <button>
-                        Notes
-                    </button>
-                </div>
-            </div>
-            <div className="left-content max-w-[800px] lg:min-w-[740px] px-[0px] sm:px-[16px]">
+            <SideNavBar />
+            <div className="left-content max-w-[800px] lg:min-w-[740px] px-[0px] sm:px-[16px] ml-[25px] sm:ml-[0px]">
                 <div className="">
                     <h2 className="text-[30px] font-bold  sm:mx-[60px] p-[20px]"> Trip to {itinerary.itineraryId}</h2>
                 </div>
@@ -364,16 +369,14 @@ function ItineraryDetail() {
                                 (
                                     <div className='Whole Itinerary' {...provided.droppableProps} ref={provided.innerRef}>
                                         {itinerary.listOfDestinations.map((destination, index) => (
-                                            <Draggable key={index} draggableId={destination.name} index={index}>
+                                            <Draggable key={destination.placeId} draggableId={destination.placeId} index={index}>
                                                 {(provided) => (
-
                                                     <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className='Each Destination'>
                                                         <div className='flex p-2'>
                                                             <div className='flex items-center'>
                                                                 <FontAwesomeIcon icon={fasGrip} />
                                                             </div>
                                                             <div className='left-spacer w-[20px]'>
-
                                                             </div>
                                                             <div className='px-5 py-4 w-[70%] bg-gray-100 rounded-[10px]'>
                                                                 <li className='font-bold'>{destination.name} </li>
@@ -394,8 +397,8 @@ function ItineraryDetail() {
                                                                 </div>
 
                                                             </div>
-                                                            <div className='px-5 w-[40%]'>
-                                                                <p> hi </p>
+                                                            <div className='DestinationImage relative mx-[20px] w-[40%]'>
+                                                                {photoUrls[destination.placeId] && <Image className="rounded-[10px]" objectFit='cover' layout="fill" src={photoUrls[destination.placeId]} alt="Destination Image" />}
                                                             </div>
                                                             <div>
                                                                 <button onClick={() => promptDelete(destination.placeId, destination.order)}> <FontAwesomeIcon icon={faTrash} /> </button>
@@ -429,7 +432,6 @@ function ItineraryDetail() {
                                 )}
 
                             </Droppable>
-
                         </DragDropContext>
                     </div>
 
@@ -444,29 +446,32 @@ function ItineraryDetail() {
 
             <div className="right-content hidden md:block">
                 <LoadScript googleMapsApiKey={NEXT_PUBLIC_GOOGLE_MAPS_API_KEY} onLoad={fetchDirections}>
-                    <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={defaultCenter}>
-                        {directions && <DirectionsRenderer directions={directions} />}
+                    <GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter} isMarkerShown={false}>
+                        <DirectionsRenderer directions={directions} suppressInfoWindows={true} suppressMarkers={true} />
                         {itinerary.listOfDestinations.map((destination, index) => (
-                            <React.Fragment key={index}>
+                            <div key={index}>
                                 <Marker
                                     position={{ lat: destination.latitude, lng: destination.longitude }}
                                     label={`${index + 1}`}
-                                    onClick={() => setSelectedPlace(destination)}
+                                    onClick={() => onMarkerClick(index, destination)}
                                 />
                                 {selectedPlace === destination && (
                                     <InfoWindow
-                                        position={{ lat: destination.originLocation[0], lng: destination.originLocation[1] }}
+                                        position={{ lat: destination.latitude, lng: destination.longitude }}
                                         onCloseClick={() => setSelectedPlace(null)}
                                     >
-                                        <div className="info-window-container">
-                                            <div className="info-window-header">
+                                        <div className="">
+
+                                            <div className="">
+
                                                 <h4>{destination.name}</h4>
                                                 <img src={destination.imageUrl} alt={destination.name} />
+
                                             </div>
                                         </div>
                                     </InfoWindow>
                                 )}
-                            </React.Fragment>
+                            </div>
                         ))}
                     </GoogleMap>
                 </LoadScript>

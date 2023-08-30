@@ -5,12 +5,9 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
 .sb_footer {
@@ -44,7 +41,7 @@ body {
   flex-direction: row;
 }
 
-.sb_footer-links-div h4{
+.sb_footer-links-div h4 {
   font-size: 16px;
   line-height: 17px;
   margin-bottom: 0.9rem;
@@ -52,7 +49,7 @@ body {
   letter-spacing: .2rem;
 }
 
-.sb_footer-links-div p{
+.sb_footer-links-div p {
   font-size: 13px;
   line-height: 20px;
   margin: 0.5rem 0;
@@ -72,7 +69,7 @@ body {
   flex-direction: row;
 }
 
-.sb_footer-below-links p{
+.sb_footer-below-links p {
   font-size: 13px;
   line-height: 15px;
   margin-left: 2rem;
@@ -89,45 +86,45 @@ body {
 }
 
 @media screen and (max-width: 700px) {
-    .sb_footer-heading h1{
-      font-size: 44px;
-      line-height: 50px;
-    }
+  .sb_footer-heading h1 {
+    font-size: 44px;
+    line-height: 50px;
+  }
 
 }
 
 @media screen and (max-width: 550px) {
-  .sb_footer-heading h1{
+  .sb_footer-heading h1 {
     font-size: 34px;
     line-height: 42px;
   }
 
-  .sb_footer-links div{
+  .sb_footer-links div {
     margin: 1rem 0;
   }
 
-  .sb_footer-btn p{
+  .sb_footer-btn p {
     font-size: 14px;
-    line-height:20px;
+    line-height: 20px;
   }
 
-  .sb_footer-below{
+  .sb_footer-below {
     flex-direction: column;
     justify-content: center;
   }
 
-  .sb_footer-below-links{
+  .sb_footer-below-links {
     flex-direction: column;
   }
 
-  .sb_footer-below-links p{
+  .sb_footer-below-links p {
     margin-left: 0rem;
     margin-top: 1rem;
   }
 }
 
 @media screen and (max-width: 400px) {
-  .sb_footer-heading h1{
+  .sb_footer-heading h1 {
     font-size: 27px;
     line-height: 38px;
   }
@@ -135,59 +132,7 @@ body {
 
 /*Accounts page */
 
-.account-page {
-  font-family: Arial, sans-serif;
-  padding: 0px;
-  max-width: 100%;
-  margin: 0 auto;
-}
 
-.col-xl-3 {
-  flex: 0 0 25%;
-  max-width: 25%;
-}
-
-.Profile {
-  max-width: 250px;
-  min-width: 230px;
-  min-height: 450px;
-  width: 100%;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.profile-image {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  border: 1px solid #e0e0e0;
-  padding: 24px 16px;
-  margin: 0 auto;
-}
-
-.profile-name {
-  text-align: center;
-  font-size: 1.5em;
-  margin-top: 10px;
-}
-
-.profile-email {
-  text-align: center;
-  font-size: 1em;
-  color: gray;
-  margin-top: 5px;
-}
-
-.profile-description {
-  margin-top: 10px;
-  border: 1px solid #e0e0e0;
-  padding: 5px;
-  border-radius: 5px;
-  resize: vertical;  /* allows the user to resize the textarea vertically */
-  width: 100%;
-}
 
 .itineraries {
   display: grid;
@@ -232,8 +177,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-  z-index: 1000; /* Ensures the modal appears on top of other content */
+  background-color: rgba(0, 0, 0, 0.7);
+  /* Semi-transparent background */
+  z-index: 1000;
+  /* Ensures the modal appears on top of other content */
 }
 
 .modal-content {
@@ -241,7 +188,8 @@ body {
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* A slight shadow to give depth */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  /* A slight shadow to give depth */
   text-align: center;
 }
 
@@ -256,7 +204,8 @@ body {
 .info-window-container {
   padding: 10px;
   width: 300px;
-  height: 150px; /* You can adjust this based on your requirements */
+  height: 150px;
+  /* You can adjust this based on your requirements */
 }
 
 .info-window-header {
@@ -266,8 +215,9 @@ body {
 }
 
 .info-window-header img {
-  width: 60px; /* Adjust size accordingly */
-  height: 60px; 
+  width: 60px;
+  /* Adjust size accordingly */
+  height: 60px;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -281,3 +231,21 @@ body {
   z-index: 10;
 }
 
+
+
+
+.closedSidebar {
+  width: 30px !important;
+}
+
+.hiddenContent {
+  display: none;
+}
+
+.transition {
+  transition: width 0.3s ease-in-out, border 0.33s ease-in-out;
+}
+
+.bottom-button {
+  margin-top: auto;
+}

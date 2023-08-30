@@ -11,7 +11,7 @@ const TypedLocation = ({setLocationText}) => {
   return (
     <div className='flex flex-col'>
         <label className="text-[20px] mb-[16px]" htmlFor="locationInput">Enter your location</label>
-        <input className='w-[800px] border p-2 rounded-[10px]'
+        <input className='w-[100%] border p-2 rounded-[10px]'
           type="text"
           id="locationInput"
           onChange={handleLocationChange}

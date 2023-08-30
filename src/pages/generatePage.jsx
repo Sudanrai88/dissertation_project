@@ -78,23 +78,18 @@ function generatePage() {
     setIsLoading(false); // Hide loading state
   };
 
-  const showLoadingPage = () => {
-    // Render the loading page while isLoading is true
+  
     if (isLoading) {
       return <div>Loading...</div>;
     }
 
-    return null;
-  };
-
   return (
-    <>
-      {isLoading && showLoadingPage()}
+    <div>
       {!isLoading && (
-        <>
+        <div>
           <NavBar startColour={"black"} endColour={"white"} />
           <div className='flex flex-col m-auto px-15 custom1:max-w-[1400px] max-w-[90%] justify-center items-center mt-[100px] leading-[200%]'>
-            <div className='sm:max-w-[620px] max-w-[90%] md:max-w-[820px]'>
+            <div className=' sm:w-[620px] max-w-[90%] md:w-[820px]'>
               <h1 class="text-2xl sm:text-4xl font-bold mb-8 sm:mb-12 ">Tell us your travel preferences</h1>
               <TypedLocation setLocationText={setLocationText} />
               <hr className='my-[64px]' />
@@ -109,10 +104,11 @@ function generatePage() {
           </div>
 
           <Footer />
-        </>
+        </div>
 
       )}
-    </>
+      {isLoading}
+    </div>
   );
 }
 

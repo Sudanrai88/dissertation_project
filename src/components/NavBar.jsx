@@ -7,6 +7,7 @@ function NavBar({ startColour, endColour }) {
     const [nav, setNav] = useState(false);
     const [color, setColor] = useState('transparent');
     const [textcolor, setTextColor] = useState({ startColour });
+    
 
     const handleNav = () => {
         setNav(!nav)
@@ -38,7 +39,7 @@ function NavBar({ startColour, endColour }) {
                 <Link href='/dashboard'>
                     <h1 style={{ color: `${textcolor}` }} className='font-bold text-4xl ml-4'> GenTrip </h1>
                 </Link>
-                <ul style={{ color: `${textcolor}` }} className='hidden sm:flex font-bold'>
+                <ul style={{ color: `${textcolor}` }} className='Links hidden sm:flex font-bold'>
                     <li className='p-4'>
                         <Link href='/dashboard'>
                             <h1>Home</h1>

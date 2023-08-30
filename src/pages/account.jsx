@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
 import { useRouter } from 'next/navigation';
 import Hero from "@/components/Hero";
+import Image from "next/image";
+import Link from "next/link";
 
 function account() {
     const auth = getAuth();
@@ -103,43 +105,77 @@ function account() {
 
     }
 
+    console.log("help me")
+    console.log(user.photoURL);
 
     return (
         <div className="account-page">
             <NavBar startColour={"black"} endColour={"white"} />
             <div>
-                <div className="flex max-w-[1140px] m-auto py-[100px]">
-                    <div className="col-xl-3">
-                        <div className="Profile">
-                            <img src={user.imageURL} alt="/" className="profile-image" />
-                            <div className="profile-name">{user.name}</div>
-                            <div className="profile-email">{user.email}</div>
-                            <textarea className="profile-description" defaultValue={user.description}></textarea>
-                            <div className="mt-[50px] flex justify-center">
-                                <button className="border rounded-[8px] px-2 py-1 mx-[5px]"> edit </button>
+                <div className="flex flex-col sm:flex-row max-w-[1140px] m-auto py-[100px] justify-center">
+                    <div className="sm:mt-[65px] flex-[100%] sm:ml-[0px] sm:flex-[10%] max-h-[auto] sm:max-h-[420px] md:max-h-[450px] sm:border sm:rounded-[20px] p-4">
+                        <div className="Profile flex flex-row sm:flex-col justify-center items-center ">
+                            <div className="w-[100px] h-[100px] sm:w-[250px] sm:h-[250px] relative">
+                                {user.photoURL ? (
+                                    <Image
+                                        src={user.photoURL}
+                                        
+                                        objectFit="cover"
+                                        layout="fill"
+                                        alt="/"
+                                        className="rounded-[20px]"
+                                    />
+                                ) : (        
+                                    <Image  
+                                        src="/assets/anonymous_avatars_grey_circles.jpg"     
+                                        objectFit="cover"
+                                        layout="fill"
+                                        alt="/"
+                                        className="rounded-[20px]"
+                                    />             
+                                )}
+                            </div>
+                            <div className="sm:ml-[0px] ml-[25px] sm:mt-[10px]">
+                                <div className="text-gray-600">{user.email}</div>
+                            </div>
+
+                            <div className="sm:mt-[30px] flex flex-col sm:flex-row justify-center ">
+                                <button className="border rounded-[8px] px-2 py-1 mx-[5px] my-[5px]"> Save </button>
                                 <button className="border rounded-[8px] px-2 py-1 mx-[5px]" onClick={() => auth.signOut()}>Logout</button>
                             </div>
                         </div>
                     </div>
 
-                    <div className="Itineraries max-w-[75%] justify-center">
-                        <h2>Your Itineraries</h2>
-                        <div className="flex flex-row flex-wrap">
-                            {itineraries.map(itinerary => (
-                                <div className="mt-[48px]">
-                                <ItineraryList
-    
-                                    key={itinerary.itineraryId}
-                                    itinerary={itinerary}
-                                    addItineraryToPopular={addItineraryToPopular}
-                                    showActions={true}
-                                    showPopular={false}
-                                    onDelete={deleteItinerary}
-                                    source="account" />
-                                    </div>
-                            ))}
-                        </div>
-                    </div>
+                    <div className="flex-[75%] Itineraries max-w-[95%] sm:max-w-[80%] justify-center items-start mx-auto ">
+  <h2 className="text-black text-[30px] font-bold flex justify-center mb-[20px]">Your Itineraries</h2>
+  <div className="flex flex-row flex-wrap justify-start items-center sm:ml-[25px]">
+    {itineraries.length > 0 ? (
+      itineraries.map(itinerary => (
+        <div className="mt-[0px] w-[100%] sm:w-[auto]">
+          <ItineraryList
+            BottomMargin={"mb-[10px]"}
+            key={itinerary.itineraryId}
+            itinerary={itinerary}
+            addItineraryToPopular={addItineraryToPopular}
+            showActions={true}
+            showPopular={false}
+            onDelete={deleteItinerary}
+            source="account" />
+        </div>
+      ))
+    ) : (
+      <div className="text-center flex flex-col justify-center items-center w-[100%] mr-[20px]">
+        <p>You have currently have no itineraries.</p>
+        <Link href="/generatePage">
+           <button>
+          Press here to start generating!
+        </button> 
+        </Link>
+        
+      </div>
+    )}
+  </div>
+</div>
 
                 </div>
 

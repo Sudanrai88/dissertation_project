@@ -14,6 +14,5 @@ function LoginButton({ authType}) {
       </div>
     );
   }
-//Going to have firebase stuff here. Depending on authType the authentication route will be different.
 
 export default LoginButton
