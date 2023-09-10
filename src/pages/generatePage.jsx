@@ -43,7 +43,7 @@ function generatePage() {
     console.log('Request Data:', requestData);
     setIsLoading(true); // Show loading state
 
-    const backendEndpoint = 'http://localhost:8080/api/search?text=' + text +
+    const backendEndpoint = 'https://touristic-backend-75e99f3f8303.herokuapp.com/api/search?text=' + text +
       '&Cost=' + Cost +
       '&popularity=' + popularity +
       '&accessibility=' + accessibility +

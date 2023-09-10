@@ -24,7 +24,7 @@ function ItineraryChooser() {
       if (!user) return;
 
       const token = await user.getIdToken();
-      const response = await fetch('http://localhost:8080/api/itinerary/fetchTempItineraries', {
+      const response = await fetch('https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/fetchTempItineraries', {
         headers: {
           'Authorization': token,
         },
@@ -67,7 +67,7 @@ function ItineraryChooser() {
 
   const handleSelect = async (itineraryId) => {
     const token = await user.getIdToken();
-    const response = await fetch('http://localhost:8080/api/itinerary/select', {
+    const response = await fetch('https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/select', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

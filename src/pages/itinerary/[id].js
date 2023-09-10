@@ -118,7 +118,7 @@ function ItineraryDetail() {
         if (!user) return;
 
         const token = await user.getIdToken();
-        const response = await fetch(`http://localhost:8080/api/itinerary/${id}`, {
+        const response = await fetch(`https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -135,7 +135,7 @@ function ItineraryDetail() {
 
         const token = await user.getIdToken();
 
-        const response = await fetch(`http://localhost:8080/api/itinerary/popular/${id}`, {
+        const response = await fetch(`https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/popular/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ function ItineraryDetail() {
             if (!user) return;
             const token = await user.getIdToken();
 
-            const response = await fetch(`http://localhost:8080/api/itinerary/deletePlace?itineraryId=${itinerary.itineraryId}&placeId=${placeId}&index=${activeInputIndex}`, {
+            const response = await fetch(`https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/deletePlace?itineraryId=${itinerary.itineraryId}&placeId=${placeId}&index=${activeInputIndex}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': token,
@@ -208,7 +208,7 @@ function ItineraryDetail() {
         console.log(inputValue);
         const token = await user.getIdToken();
         try {
-            const response = await fetch(`http://localhost:8080/api/itinerary/addNewItinerary`, {
+            const response = await fetch(`https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/addNewItinerary`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -255,7 +255,7 @@ function ItineraryDetail() {
         if (!user) return;
         const token = await user.getIdToken();
         try {
-            const response = await fetch(`http://localhost:8080/api/itinerary/swapOrderIndex`, {
+            const response = await fetch(`https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/swapOrderIndex`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

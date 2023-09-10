@@ -20,7 +20,7 @@ function explore() {
         if (!user) return;
         console.log("Heloooo")
         const token = await user.getIdToken();
-        const response = await fetch('http://localhost:8080/api/itinerary/fetchPopularItineraries', {
+        const response = await fetch('https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/fetchPopularItineraries', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

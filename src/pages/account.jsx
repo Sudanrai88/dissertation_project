@@ -25,7 +25,7 @@ function account() {
             try {
                 if (!user) return;
                 const token = await user.getIdToken();
-                const response = await fetch('http://localhost:8080/api/itinerary/fetchItineraries', {
+                const response = await fetch('https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/fetchItineraries', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ function account() {
             if (!user) return;
             const token = await user.getIdToken();
 
-            const response = await fetch(`http://localhost:8080/api/itinerary/deleteItinerary?itineraryId=${itineraryId}`, {
+            const response = await fetch(`https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/deleteItinerary?itineraryId=${itineraryId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': token,
@@ -75,7 +75,7 @@ function account() {
             if (!user) return;
             const token = await user.getIdToken();
 
-            const response = await fetch(`http://localhost:8080/api/itinerary/addToPopular`, {
+            const response = await fetch(`https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/addToPopular`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
