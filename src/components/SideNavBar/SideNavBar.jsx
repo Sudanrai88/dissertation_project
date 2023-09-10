@@ -37,7 +37,7 @@ function SideNavBar() {
 
     return (
         <div className=''>
-            <div className={`z-[10] absolute lg:relative   h-[100%] flex flex-col bg-[white] ${showBorder ? 'border-r' : ''} ${isSidebarOpen ? 'w-[200px]' : 'closedSidebar'} transition`}>
+            <div className={`z-[10] absolute lg:relativel h-[100%] flex flex-col bg-[white] ${showBorder ? 'border-r' : ''} ${isSidebarOpen ? 'w-[200px]' : 'closedSidebar'} transition`}>
                 <ul className={`SideNavBarList w-[100%] h-auto p-0 ${isSidebarOpen ? '' : 'hiddenContent'} `}>
                     <div className='w-[100%] h-[60px] list-none margin-0 
                              text-black hover:cursor-pointer text-[30px] font-bold 

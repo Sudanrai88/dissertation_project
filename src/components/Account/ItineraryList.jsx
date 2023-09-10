@@ -68,7 +68,7 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
 
 
         try {
-            const response = await fetch(`http://localhost:8080/api/itinerary/changeLike?itineraryId=${popItineraries.itineraryId}&value=${newValue}`, {
+            const response = await fetch(`https://touristic-backend-75e99f3f8303.herokuapp.com/api/itinerary/changeLike?itineraryId=${popItineraries.itineraryId}&value=${newValue}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
