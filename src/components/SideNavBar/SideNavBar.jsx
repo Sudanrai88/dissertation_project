@@ -8,12 +8,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 
 
-function SideNavBar() {
+function SideNavBar({ isSmallScreen, menuColor }) {
     const [currentPath, setCurrentPath] = useState(null);
-    const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [showBorder, setShowBorder] = useState(true);
 
-
+    if (!isSmallScreen) {
+        return null;
+    }
 
     //window does not render due to NEXT ssr (server side rendering), 
     //as code is running on server first 
@@ -35,9 +37,11 @@ function SideNavBar() {
         }
     }
 
+    console.log(menuColor)
+
     return (
-        <div className=''>
-            <div className={`z-[10] absolute lg:relativel h-[100%] flex flex-col bg-[white] ${showBorder ? 'border-r' : ''} ${isSidebarOpen ? 'w-[200px]' : 'closedSidebar'} transition`}>
+        
+            <div className={`z-[20] fixed h-[100%] flex flex-col bg-[white] ${showBorder ? 'border-r' : ''} ${isSidebarOpen ? 'w-[200px]' : 'closedSidebar'} transition`}>
                 <ul className={`SideNavBarList w-[100%] h-auto p-0 ${isSidebarOpen ? '' : 'hiddenContent'} `}>
                     <div className='w-[100%] h-[60px] list-none margin-0 
                              text-black hover:cursor-pointer text-[30px] font-bold 
@@ -73,14 +77,14 @@ function SideNavBar() {
                     <button onClick={toggleSidebar} className=''>
                         {isSidebarOpen ?
                             <div className='flex ml-[25px] mb-[10px]'>
-                                
+
                                 <KeyboardDoubleArrowLeftIcon className='mr-3' />
                                 <p className='text-[15px] text-gray-800 mx-3'>
                                     Press to hide
                                 </p>
                             </div>
 
-                            : <div className='flex items-end align-bottom ml-[5px] mt-[5px]'>
+                            : <div className={`flex items-end align-bottom mt-[5px] ${menuColor}`}>
                                 <MenuIcon />
                             </div>}
                     </button>
@@ -90,7 +94,6 @@ function SideNavBar() {
             </div >
 
 
-        </div >
     )
 }
 

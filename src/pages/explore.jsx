@@ -41,16 +41,20 @@ function explore() {
   return (
 
     //The explore page should show all of the popular destinations 
-    <div className='max-w-[1440px] flex flex-col justify-center items-center align-middle m-auto'>
+    <div>
+        <NavBar startColour={"black"} endColour={"white"} menuColor="text-black" />
+      
+      <div className='max-w-[1440px] flex flex-col justify-center items-center align-middle m-auto'>
+      
       <div>
-        <NavBar startColour={"black"} endColour={"white"} />
-      </div> 
-      <div>
-        <h1 className='text-gray-800 text-[30px] font-bold flex justify-center mt-[140px]'>
+        <h1 className='text-gray-800 text-[30px] font-bold flex justify-center ml-[20px] sm:ml-[0px] mt-[60px] lg:mt-[140px]'>
           Explore All Popular Shared Destinations!
         </h1>
       </div>
-      <div className="Itineraries mt-[40px]">
+      <div className="Itineraries mt-[40px] m-auto p-2">
+      <div className='p-4 m-auto'>
+
+      
             <div className="flex flex-row flex-wrap justify-start items-center">
               {popItineraries.map(popItineraries => (
                 <ItineraryList
@@ -64,11 +68,14 @@ function explore() {
                 />
               ))}
             </div>
+            </div>
           </div>
     
 
 
     </div>
+    </div>
+    
   )
 }
 

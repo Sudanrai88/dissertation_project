@@ -92,10 +92,10 @@ function dashboard() {
 
   return (
     <div className='overflow-hidden'>
-      <div className='w-full max-w-[1150px] mx-auto px-[20px]'>
-        <NavBar startColour={"white"} endColour={"black"} />
-      </div>
-      
+
+
+
+      <NavBar startColour={"white"} endColour={"black"} menuColor={"text-white"}/>
 
       <Hero heading={
         <>
@@ -135,7 +135,7 @@ function dashboard() {
           </div>
         </div>
       </section>
-      
+
       <section className='flex m-auto px-15 py-[50px]'>
         <div className='m-auto custom1:max-w-[840px] max-w-[800px]'>
           <RecentlyViewed responseFromBackend={responseFromBackend} text={"Get started by clicking here!"} />

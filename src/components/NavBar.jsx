@@ -1,17 +1,30 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import SideNavBar from './SideNavBar/SideNavBar';
 
 
-function NavBar({ startColour, endColour }) {
+function NavBar({ startColour, endColour, menuColor }) {
     const [nav, setNav] = useState(false);
     const [color, setColor] = useState('transparent');
     const [textcolor, setTextColor] = useState({ startColour });
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
+
     
 
     const handleNav = () => {
         setNav(!nav)
     }
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth < 640); 
+        };
+        window.addEventListener("resize", handleResize);
+        handleResize();
+        return () => window.removeEventListener("resize", handleResize);
+     }, []);
+
 
     useEffect(() => {
         const changeColor = () => {
@@ -26,20 +39,22 @@ function NavBar({ startColour, endColour }) {
         window.addEventListener('scroll', changeColor)
     }, [])
 
-    //Change anchor tags to Link as the whole point of next is to have single page aplpications, meaning that the entirity of the website/application is loaded first. Therefore no wait times.
 
-    //This means no smooth scrolling however move 'Gallery' Link to the images of the about page where we can implement the slider into the about section. We can implement that slider function (Library) in the MODAL of the about section. 
+
 
     return (
+        <>
+               { isSmallScreen ? <SideNavBar isSmallScreen={isSmallScreen} menuColor={menuColor} /> : null }
+
         <div style={{ backgroundColor: `${color}` }} className='fixed left-0 top-0 w-full z-10 ease-in duration-300'>
             <div
-                className='max-w-[1840px] m-auto flex justify-between items-center p-4 text-white'
+                className='max-w-[1840px] m-auto  hidden sm:flex justify-between items-center p-4 text-white'
                 style={{ color: `${startColour}` }}
             >
                 <Link href='/dashboard'>
                     <h1 style={{ color: `${textcolor}` }} className='font-bold text-4xl ml-4'> GenTrip </h1>
                 </Link>
-                <ul style={{ color: `${textcolor}` }} className='Links hidden sm:flex font-bold'>
+                <ul style={{ color: `${textcolor}` }} className='Links flex font-bold'>
                     <li className='p-4'>
                         <Link href='/dashboard'>
                             <h1>Home</h1>
@@ -57,7 +72,10 @@ function NavBar({ startColour, endColour }) {
                     </li>
                 </ul>
             </div>
+            
         </div>
+          
+         </>
     )
 }
 

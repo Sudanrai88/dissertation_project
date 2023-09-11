@@ -339,7 +339,8 @@ function ItineraryDetail() {
     return (
 
         <div className="itinerary-detail">
-            <SideNavBar />
+            <SideNavBar isSmallScreen={true} menuColor="text-black"/>
+
             <div className="left-content max-w-[800px] lg:min-w-[740px] px-[0px] sm:px-[16px] ml-[25px] sm:ml-[0px]">
                 <div className="">
                     <h2 className="text-[30px] font-bold  sm:mx-[60px] p-[20px]"> Trip to {itinerary.itineraryId}</h2>
