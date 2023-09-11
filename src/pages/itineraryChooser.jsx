@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from "firebase/auth";
-import { useRouter } from 'next/router'; // Corrected 'next/navigation' to 'next/router'
-import Image from "next/image"; // Using the modern 'next/image'
+import { useRouter } from 'next/router'; 
+import Image from "next/image"; 
 
 const NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
@@ -113,9 +113,7 @@ function ItineraryChooser() {
           </div>
         ))}
       </div>
-      <div>
-        left side
-      </div>
+    
 
       {showModal && <DestinationModal activeDestination={activeDestination} onClose={() => setShowModal(false)} />}
     </div>

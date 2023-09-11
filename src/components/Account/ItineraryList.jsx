@@ -5,7 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from "firebase/auth";
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'; // Regular heart
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -36,7 +36,7 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
         // Construct a unique key for local storage using the itinerary ID
         const storageKey = `photoUrl_${itineraryId}`;
 
-        // Check if image is in local storage
+        // Checks if the image is in locl storage
         const cachedUrl = localStorage.getItem(storageKey);
         if (cachedUrl) {
             console.log("From cache")
@@ -175,7 +175,7 @@ function ItineraryList({ popItineraries, source, itinerary, onDelete, addItinera
                                     <FontAwesomeIcon
                                         icon={isLiked ? fasHeart : farHeart}
                                         onClick={handleLikeClick}
-                                        className="cursor-pointer transform hover:scale-110 transition-transform duration-150"  // Tailwind classes for hover effect
+                                        className="cursor-pointer transform hover:scale-110 transition-transform duration-150" 
                                     /> {popItineraries.userLikes}
                                 </p>
 

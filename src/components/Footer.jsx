@@ -12,19 +12,19 @@ function Footer() {
                             <h4 > CUSTOMER CARE </h4>
                             <div>
                                 <a>
-                                    <p> FILLER</p>
+                                    <p> FAQ </p>
                                 </a>
                                 <a>
-                                    <p>FILLER</p>
+                                    <p>ABOUT US</p>
                                 </a>
                                 <a>
-                                    <p>FILLER</p>
+                                    <p>CONTACT US</p>
                                 </a>
                                 <a>
-                                    <p>FILLER</p>
+                                    <p>JOIN THE TEAM</p>
                                 </a>
                                 <a>
-                                    <p>FILLER</p>
+                                    <p>MORE</p>
                                 </a>
                             </div>
 
@@ -39,7 +39,7 @@ function Footer() {
                     </div>
 
                     <div className='sb_footer-links-div'>
-                        <h4 id='logo'> GenericLogo </h4>
+                        <h4 id='logo'> GenTrip </h4>
                         <div className='socialMedia'>
                             <p><FaInstagram size={30} /> </p>
                         </div>
