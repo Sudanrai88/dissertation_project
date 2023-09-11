@@ -84,11 +84,12 @@ function generatePage() {
     }
 
   return (
-    <div>
+    <div>          
+    <NavBar startColour={"black"} endColour={"white"} />
+
       {!isLoading && (
         <div>
-          <NavBar startColour={"black"} endColour={"white"} />
-          <div className='flex flex-col m-auto px-15 custom1:max-w-[1400px] max-w-[90%] justify-center items-center mt-[100px] leading-[200%]'>
+          <div className='flex flex-col m-auto px-15 custom1:max-w-[1400px] max-w-[90%] justify-center items-center pt-[50px] sm:pt-[120px] leading-[200%]'>
             <div className=' sm:w-[620px] max-w-[90%] md:w-[820px]'>
               <h1 class="text-2xl sm:text-4xl font-bold mb-8 sm:mb-12 ">Tell us your travel preferences</h1>
               <TypedLocation setLocationText={setLocationText} />

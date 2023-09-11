@@ -30,10 +30,10 @@ function PlaceTypes({ setGroupTypes }) {
       <h3 className='text-[20px] mb-[10px]'>What type of activities are you interested in?</h3>
       <p className='text-[16px] mb-[16px] text-gray-600 font-thin '> Select a maximum of 2 types.</p>
 
-      <div className='flex flex-row justify-between'>
+      <div className='flex flex-row flex-wrap'>
       {Object.entries(groupTypes).map(([groupName, placeTypes]) => (
         
-          <label key={groupName} className='w-1/5' >
+          <label key={groupName} className='w-[33%]  sm:w-[20%]' >
             <button
               key={groupName}
               className={`px-4 border cursor-pointer m-[5px] w-[90%] ${selectedGroupTypes.includes(groupName) ? 'border-blue-600' : ''}`}
